@@ -1,20 +1,6 @@
 import { n as noop } from "./utils2.js";
-import { u as untrack, M as safe_not_equal } from "./runtime.js";
+import { a as safe_not_equal } from "./equality.js";
 import "clsx";
-function subscribe_to_store(store, run, invalidate) {
-  if (store == null) {
-    run(void 0);
-    return noop;
-  }
-  const unsub = untrack(
-    () => store.subscribe(
-      run,
-      // @ts-expect-error
-      invalidate
-    )
-  );
-  return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
-}
 const subscriber_queue = [];
 function readable(value, start) {
   return {
@@ -68,13 +54,7 @@ function writable(value, start = noop) {
   }
   return { set, update, subscribe };
 }
-function get(store) {
-  let value;
-  subscribe_to_store(store, (_) => value = _)();
-  return value;
-}
 export {
-  get as g,
   readable as r,
   writable as w
 };

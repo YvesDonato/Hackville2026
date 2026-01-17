@@ -1,5 +1,5 @@
 import { GoogleGenAI, type LiveServerMessage, Modality } from '@google/genai';
-import { PUBLIC_GEMINI_API_KEY } from '$env/static/public';
+import { env } from '$env/dynamic/public';
 
 // Audio configuration constants
 const INPUT_SAMPLE_RATE = 16000;
@@ -117,7 +117,11 @@ export class LiveSessionClient {
 	private audioStream: MediaStream | null = null;
 
 	constructor() {
-		this.ai = new GoogleGenAI({ apiKey: PUBLIC_GEMINI_API_KEY });
+		const apiKey = env.PUBLIC_GEMINI_API_KEY;
+		if (!apiKey) {
+			throw new Error('PUBLIC_GEMINI_API_KEY environment variable is not set');
+		}
+		this.ai = new GoogleGenAI({ apiKey });
 	}
 
 	async connect(

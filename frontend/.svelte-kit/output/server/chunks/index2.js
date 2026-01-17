@@ -1,6 +1,46 @@
-import { e as escape_html, b as HYDRATION_START, a as HYDRATION_END, v as STALE_REACTION, y as set_ssr_context, f as ssr_context, z as push, F as pop, G as ELEMENT_PRESERVE_ATTRIBUTE_CASE, J as ELEMENT_IS_INPUT, K as ELEMENT_IS_NAMESPACED } from "./context.js";
+import { e as escape_html } from "./escaping.js";
 import { clsx as clsx$1 } from "clsx";
+import { a as set_ssr_context, b as ssr_context, p as push, c as pop } from "./context.js";
 import * as devalue from "devalue";
+const DERIVED = 1 << 1;
+const EFFECT = 1 << 2;
+const RENDER_EFFECT = 1 << 3;
+const MANAGED_EFFECT = 1 << 24;
+const BLOCK_EFFECT = 1 << 4;
+const BRANCH_EFFECT = 1 << 5;
+const ROOT_EFFECT = 1 << 6;
+const BOUNDARY_EFFECT = 1 << 7;
+const CONNECTED = 1 << 9;
+const CLEAN = 1 << 10;
+const DIRTY = 1 << 11;
+const MAYBE_DIRTY = 1 << 12;
+const INERT = 1 << 13;
+const DESTROYED = 1 << 14;
+const EFFECT_RAN = 1 << 15;
+const EFFECT_TRANSPARENT = 1 << 16;
+const EAGER_EFFECT = 1 << 17;
+const HEAD_EFFECT = 1 << 18;
+const EFFECT_PRESERVED = 1 << 19;
+const USER_EFFECT = 1 << 20;
+const WAS_MARKED = 1 << 15;
+const REACTION_IS_UPDATING = 1 << 21;
+const ASYNC = 1 << 22;
+const ERROR_VALUE = 1 << 23;
+const STATE_SYMBOL = /* @__PURE__ */ Symbol("$state");
+const LEGACY_PROPS = /* @__PURE__ */ Symbol("legacy props");
+const STALE_REACTION = new class StaleReactionError extends Error {
+  name = "StaleReactionError";
+  message = "The reaction that called `getAbortSignal()` was re-run or destroyed";
+}();
+const COMMENT_NODE = 8;
+const HYDRATION_START = "[";
+const HYDRATION_START_ELSE = "[!";
+const HYDRATION_END = "]";
+const HYDRATION_ERROR = {};
+const ELEMENT_IS_NAMESPACED = 1;
+const ELEMENT_PRESERVE_ATTRIBUTE_CASE = 1 << 1;
+const ELEMENT_IS_INPUT = 1 << 2;
+const UNINITIALIZED = /* @__PURE__ */ Symbol();
 const DOM_BOOLEAN_ATTRIBUTES = [
   "allowfullscreen",
   "async",
@@ -929,13 +969,46 @@ function ensure_array_like(array_like_or_iterator) {
   return [];
 }
 export {
-  attr as a,
-  bind_props as b,
-  attr_class as c,
-  stringify as d,
-  ensure_array_like as e,
-  head as h,
-  is_passive_event as i,
-  render as r,
-  slot as s
+  ASYNC as A,
+  BOUNDARY_EFFECT as B,
+  COMMENT_NODE as C,
+  DIRTY as D,
+  ERROR_VALUE as E,
+  ensure_array_like as F,
+  attr_class as G,
+  HYDRATION_ERROR as H,
+  INERT as I,
+  stringify as J,
+  LEGACY_PROPS as L,
+  MAYBE_DIRTY as M,
+  ROOT_EFFECT as R,
+  STATE_SYMBOL as S,
+  UNINITIALIZED as U,
+  WAS_MARKED as W,
+  HYDRATION_END as a,
+  HYDRATION_START as b,
+  HYDRATION_START_ELSE as c,
+  EFFECT_RAN as d,
+  CONNECTED as e,
+  CLEAN as f,
+  DERIVED as g,
+  EFFECT as h,
+  BLOCK_EFFECT as i,
+  BRANCH_EFFECT as j,
+  RENDER_EFFECT as k,
+  MANAGED_EFFECT as l,
+  DESTROYED as m,
+  HEAD_EFFECT as n,
+  EFFECT_TRANSPARENT as o,
+  EFFECT_PRESERVED as p,
+  EAGER_EFFECT as q,
+  STALE_REACTION as r,
+  USER_EFFECT as s,
+  REACTION_IS_UPDATING as t,
+  is_passive_event as u,
+  render as v,
+  head as w,
+  attr as x,
+  slot as y,
+  bind_props as z
 };

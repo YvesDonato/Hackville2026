@@ -1,11 +1,30 @@
-import { e as ensure_array_like, c as attr_class, d as stringify, b as bind_props, a as attr } from "../../../chunks/index2.js";
+import { F as ensure_array_like, G as attr_class, J as stringify, z as bind_props, x as attr } from "../../../chunks/index2.js";
 import "@sveltejs/kit/internal";
 import "../../../chunks/exports.js";
 import "../../../chunks/utils.js";
 import "@sveltejs/kit/internal/server";
 import "../../../chunks/state.svelte.js";
-import { p as personas, s as scenarios } from "../../../chunks/scenarios.js";
-import { e as escape_html } from "../../../chunks/context.js";
+import { e as escape_html } from "../../../chunks/escaping.js";
+const personas = [
+  {
+    id: "male",
+    name: "Alex",
+    description: "Friendly, casual",
+    color: "bg-pastel-blue text-blue-600"
+  },
+  {
+    id: "female",
+    name: "Sarah",
+    description: "Warm, engaging",
+    color: "bg-pastel-rose text-rose-600"
+  },
+  {
+    id: "discord_kitten",
+    name: "Kitten",
+    description: "Chaotic, slang-heavy",
+    color: "bg-purple-100 text-purple-600"
+  }
+];
 function PersonaSelector($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let { selected = null } = $$props;
@@ -26,6 +45,26 @@ function PersonaSelector($$renderer, $$props) {
     bind_props($$props, { selected });
   });
 }
+const scenarios = [
+  {
+    id: "coffee_shop",
+    name: "Coffee Shop",
+    description: "Casual low-pressure intro with gentle ambient noise.",
+    icon: "coffee"
+  },
+  {
+    id: "restaurant",
+    name: "Dinner Date",
+    description: "Seated conversation with pacing and table etiquette cues.",
+    icon: "utensils"
+  },
+  {
+    id: "video_call",
+    name: "Video Call",
+    description: "Camera framing, eye contact, and virtual presence coaching.",
+    icon: "video"
+  }
+];
 function ScenarioSelector($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let { selected = null } = $$props;

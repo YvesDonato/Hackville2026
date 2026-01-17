@@ -33,16 +33,16 @@ function fallback(value, fallback2, lazy = false) {
   ) : value;
 }
 export {
-  array_from as a,
-  deferred as b,
-  array_prototype as c,
-  define_property as d,
-  get_prototype_of as e,
-  fallback as f,
+  array_prototype as a,
+  get_prototype_of as b,
+  is_extensible as c,
+  deferred as d,
+  index_of as e,
+  define_property as f,
   get_descriptor as g,
-  is_extensible as h,
+  array_from as h,
   is_array as i,
-  index_of as j,
+  fallback as j,
   noop as n,
   object_prototype as o,
   run_all as r

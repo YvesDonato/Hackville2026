@@ -223,6 +223,7 @@ declare module '$env/static/private' {
 	export const PKG_CONFIG: string;
 	export const TERM_PROGRAM: string;
 	export const depsHostHostPropagated: string;
+	export const NODE_ENV: string;
 }
 
 /**
@@ -449,6 +450,7 @@ declare module '$env/dynamic/private' {
 		PKG_CONFIG: string;
 		TERM_PROGRAM: string;
 		depsHostHostPropagated: string;
+		NODE_ENV: string;
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: `${string}`]: string | undefined;
 	}
