@@ -7,12 +7,14 @@
 	import { transcript, addTranscriptEntry, clearTranscript } from '$lib/stores/transcript';
 	import { currentFeedback, setFeedback, clearFeedback } from '$lib/stores/feedback';
 	import { LiveSessionClient } from '$lib/services/liveClient';
+	import { analyzeTranscript } from '$lib/services/transcriptAnalyzer';
 	import { getPersonaDisplayName } from '$lib/data/personas';
 	import { getScenarioDisplayName } from '$lib/data/scenarios';
 	import SessionControls from '$lib/components/SessionControls.svelte';
 
 	let videoRef: HTMLVideoElement | null = $state(null);
 	let isConnected = $state(false);
+	let isAnalyzing = $state(false);
 	let micActive = $state(true);
 	let client: LiveSessionClient | null = null;
 	let videoStream: MediaStream | null = null;
@@ -124,9 +126,48 @@
 		}
 	}
 
-	function handleEndSession() {
-		const stats = generateMockStats();
-		sessionStats.set(stats);
+	async function handleEndSession() {
+		// Prevent double-triggering
+		if (isAnalyzing) return;
+
+		isAnalyzing = true;
+
+		const currentTranscript = get(transcript);
+		const startTime = get(sessionStartTime) || Date.now();
+		const duration = Math.floor((Date.now() - startTime) / 1000);
+
+		// Stop the session resources
+		cleanup();
+
+		try {
+			const currentConfig = get(sessionConfig);
+			if (!currentConfig) {
+				throw new Error('Session config not found');
+			}
+
+			// Call Gemini for analysis
+			const analysis = await analyzeTranscript(
+				currentTranscript,
+				currentConfig.scenario,
+				currentConfig.persona
+			);
+
+			const stats: SessionStats = {
+				duration,
+				strengths: analysis.strengths,
+				improvements: analysis.improvements,
+				transcript: currentTranscript
+			};
+
+			sessionStats.set(stats);
+		} catch (error) {
+			console.error('Analysis failed, using fallback:', error);
+
+			// Fallback to mock data
+			const stats = generateMockStats();
+			sessionStats.set(stats);
+		}
+
 		goto('/rewind');
 	}
 
@@ -182,6 +223,23 @@
 </script>
 
 {#if config}
+	<!-- Loading Overlay -->
+	{#if isAnalyzing}
+		<div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/95">
+			<div class="space-y-6 text-center">
+				<div class="relative">
+					<div
+						class="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-indigo-500/30 border-t-indigo-500"
+					></div>
+				</div>
+				<div class="space-y-2">
+					<h2 class="text-xl font-semibold text-white">Analyzing Your Session</h2>
+					<p class="text-sm text-slate-400">AI is reviewing your conversation...</p>
+				</div>
+			</div>
+		</div>
+	{/if}
+
 	<div class="relative flex h-screen flex-col overflow-hidden bg-slate-900 text-white">
 		<!-- Top Bar -->
 		<div

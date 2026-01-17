@@ -196,6 +196,7 @@ declare module '$env/static/private' {
 	export const npm_node_execpath: string;
 	export const RANLIB: string;
 	export const NIX_HARDENING_ENABLE: string;
+	export const OLDPWD: string;
 	export const NIX_LDFLAGS: string;
 	export const nativeBuildInputs: string;
 	export const name: string;
@@ -403,6 +404,7 @@ declare module '$env/dynamic/private' {
 		npm_node_execpath: string;
 		RANLIB: string;
 		NIX_HARDENING_ENABLE: string;
+		OLDPWD: string;
 		NIX_LDFLAGS: string;
 		nativeBuildInputs: string;
 		name: string;
