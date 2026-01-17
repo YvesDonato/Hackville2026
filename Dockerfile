@@ -1,5 +1,5 @@
 # Build
-FROM node:22.12.0-bookworm-slim AS build
+FROM node:22-bookworm-slim AS build
 WORKDIR /app
 
 COPY package*.json ./
@@ -9,7 +9,7 @@ COPY . .
 RUN npm run build
 
 # Runtime
-FROM node:22.12.0-bookworm-slim
+FROM node:22-bookworm-slim
 WORKDIR /app
 
 ENV NODE_ENV=production
