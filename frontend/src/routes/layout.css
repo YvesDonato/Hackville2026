@@ -2,8 +2,60 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
+@theme {
+	--color-pastel-blue: #e0e7ff;
+	--color-pastel-green: #d1fae5;
+	--color-pastel-rose: #ffe4e6;
+	--color-pastel-yellow: #fef3c7;
+	--color-pastel-slate: #f1f5f9;
+}
+
 @layer base {
 	body {
 		@apply bg-slate-50 text-slate-900 antialiased;
 	}
+}
+
+/* Animation utilities */
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes slide-in-from-bottom {
+	from {
+		transform: translateY(1rem);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+@keyframes zoom-in {
+	from {
+		transform: scale(0.95);
+		opacity: 0;
+	}
+	to {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+.animate-fade-in {
+	animation: fade-in 0.5s ease-out;
+}
+
+.animate-slide-in {
+	animation: slide-in-from-bottom 0.5s ease-out;
+}
+
+.animate-zoom-in {
+	animation: zoom-in 0.7s ease-out;
 }
