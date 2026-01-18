@@ -138,8 +138,8 @@ export class LiveSessionClient {
 			(window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
 		this.outputAudioContext = new (window.AudioContext ||
 			(window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)({
-			sampleRate: OUTPUT_SAMPLE_RATE
-		});
+				sampleRate: OUTPUT_SAMPLE_RATE
+			});
 
 		if (!this.outputAudioContext) throw new Error('Audio Context not supported');
 		this.outputNode = this.outputAudioContext.createGain();
@@ -200,15 +200,15 @@ export class LiveSessionClient {
 							1
 						);
 
-					const source = this.outputAudioContext.createBufferSource();
-					source.buffer = audioBuffer;
-					source.connect(this.outputNode);
-					source.addEventListener('ended', () => {
-						this.sources.delete(source);
-					});
-					source.start(this.nextStartTime);
-					this.nextStartTime += audioBuffer.duration;
-					this.sources.add(source);
+						const source = this.outputAudioContext.createBufferSource();
+						source.buffer = audioBuffer;
+						source.connect(this.outputNode);
+						source.addEventListener('ended', () => {
+							this.sources.delete(source);
+						});
+						source.start(this.nextStartTime);
+						this.nextStartTime += audioBuffer.duration;
+						this.sources.add(source);
 
 					}
 
@@ -239,6 +239,8 @@ export class LiveSessionClient {
 		await this.sessionPromise;
 	}
 
+	private isMuted = false;
+
 	private startAudioInput(stream: MediaStream) {
 		if (!this.inputAudioContext) return;
 
@@ -248,7 +250,14 @@ export class LiveSessionClient {
 		this.inputNode = this.inputAudioContext.createScriptProcessor(4096, 1, 1);
 
 		this.inputNode.onaudioprocess = (e) => {
-			const inputData = e.inputBuffer.getChannelData(0);
+			let inputData = e.inputBuffer.getChannelData(0);
+
+			if (this.isMuted) {
+				// Software mute: replace input with silence (0s)
+				// This ensures VAD (Voice Activity Detection) still works and detects silence
+				inputData = new Float32Array(inputData.length).fill(0);
+			}
+
 			// Resample from native rate to 16kHz for Gemini
 			const resampled = resampleTo16kHz(inputData, nativeSampleRate);
 			const pcmBlob = createBlob(resampled);
@@ -295,12 +304,39 @@ export class LiveSessionClient {
 	}
 
 	setMicMuted(muted: boolean) {
-		console.log('setMicMuted called with:', muted, 'audioStream:', !!this.audioStream);
-		if (this.audioStream) {
-			this.audioStream.getAudioTracks().forEach((track) => {
-				track.enabled = !muted;
-				console.log('Track enabled set to:', track.enabled);
-			});
+		this.isMuted = muted;
+		console.log(`Mic software muted: ${muted}`);
+
+		// Ensure context is running if unmuting
+		if (!muted && this.inputAudioContext?.state === 'suspended') {
+			this.inputAudioContext.resume();
+		}
+	}
+
+	/**
+	 * Inject audio blob (e.g. from TTS) into the Gemini session
+	 */
+	async injectAudioFromBlob(audioBlob: Blob) {
+		if (!this.sessionPromise || !this.inputAudioContext) return;
+
+		try {
+			const arrayBuffer = await audioBlob.arrayBuffer();
+			const audioBuffer = await this.inputAudioContext.decodeAudioData(arrayBuffer);
+
+			// Get channel data (mono is fine)
+			const inputData = audioBuffer.getChannelData(0);
+			const nativeSampleRate = audioBuffer.sampleRate;
+
+			// Resample to 16kHz
+			const resampled = resampleTo16kHz(inputData, nativeSampleRate);
+			const pcmBlob = createBlob(resampled);
+
+			const session = await this.sessionPromise;
+			session.sendRealtimeInput({ media: pcmBlob });
+
+			console.log('Injected audio into Gemini session');
+		} catch (e) {
+			console.error('Failed to inject audio:', e);
 		}
 	}
 

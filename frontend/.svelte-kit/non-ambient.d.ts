@@ -27,7 +27,7 @@ export {};
 
 declare module "$app/types" {
 	export interface AppTypes {
-		RouteId(): "/" | "/api" | "/api/scores" | "/api/transcriptions" | "/lab" | "/rewind" | "/session" | "/textMentor";
+		RouteId(): "/" | "/api" | "/api/scores" | "/api/transcriptions" | "/api/wingman" | "/lab" | "/rewind" | "/session" | "/textMentor";
 		RouteParams(): {
 			
 		};
@@ -36,13 +36,14 @@ declare module "$app/types" {
 			"/api": Record<string, never>;
 			"/api/scores": Record<string, never>;
 			"/api/transcriptions": Record<string, never>;
+			"/api/wingman": Record<string, never>;
 			"/lab": Record<string, never>;
 			"/rewind": Record<string, never>;
 			"/session": Record<string, never>;
 			"/textMentor": Record<string, never>
 		};
-		Pathname(): "/" | "/api" | "/api/" | "/api/scores" | "/api/scores/" | "/api/transcriptions" | "/api/transcriptions/" | "/lab" | "/lab/" | "/rewind" | "/rewind/" | "/session" | "/session/" | "/textMentor" | "/textMentor/";
+		Pathname(): "/" | "/api" | "/api/" | "/api/scores" | "/api/scores/" | "/api/transcriptions" | "/api/transcriptions/" | "/api/wingman" | "/api/wingman/" | "/lab" | "/lab/" | "/rewind" | "/rewind/" | "/session" | "/session/" | "/textMentor" | "/textMentor/";
 		ResolvedPathname(): `${"" | `/${string}`}${ReturnType<AppTypes['Pathname']>}`;
-		Asset(): "/BlueHeart.png" | "/discordKitten.png" | "/robots.txt" | "/SarahTheSquare.png" | string & {};
+		Asset(): "/BlueHeart.png" | "/discordKitten.png" | "/ls" | "/robots.txt" | "/SarahTheSquare.png" | string & {};
 	}
 }

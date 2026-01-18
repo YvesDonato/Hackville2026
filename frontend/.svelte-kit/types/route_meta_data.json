@@ -6,6 +6,9 @@
 	"/api/transcriptions": [
 		"src/routes/api/transcriptions/+server.ts"
 	],
+	"/api/wingman": [
+		"src/routes/api/wingman/+server.ts"
+	],
 	"/lab": [],
 	"/rewind": [],
 	"/session": [],

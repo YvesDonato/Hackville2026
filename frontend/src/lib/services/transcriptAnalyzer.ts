@@ -92,7 +92,25 @@ export async function analyzeTranscript(
 		throw new Error('Empty response from Gemini');
 	}
 
-	const parsed = JSON.parse(text) as AnalysisResult;
+	// Clean the response text (remove markdown code blocks if present)
+	let cleanText = text.trim();
+	// Remove ```json and ``` or just ```
+	cleanText = cleanText.replace(/^```json\s*/i, '').replace(/^```\s*/, '').replace(/```$/, '');
+
+	let parsed: AnalysisResult;
+	try {
+		parsed = JSON.parse(cleanText) as AnalysisResult;
+	} catch (e) {
+		console.error('JSON Parse Error', e);
+		console.log('Raw text:', text);
+		// Attempt to extract JSON from text if it contains extra commentary
+		const jsonMatch = text.match(/\{[\s\S]*\}/);
+		if (jsonMatch) {
+			parsed = JSON.parse(jsonMatch[0]) as AnalysisResult;
+		} else {
+			throw new Error('Failed to parse JSON response');
+		}
+	}
 
 	// Validate response structure
 	if (typeof parsed.score !== 'number' || !Array.isArray(parsed.strengths) || !Array.isArray(parsed.improvements)) {

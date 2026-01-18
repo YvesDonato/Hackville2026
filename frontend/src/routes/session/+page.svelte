@@ -1,34 +1,18 @@
 <script lang="ts">
-	import { onMount, onDestroy } from "svelte";
-	import { goto } from "$app/navigation";
-	import { browser } from "$app/environment";
-	import { get } from "svelte/store";
-	import type {
-		FeedbackMetric,
-		SessionStats,
-		SessionConfig,
-	} from "$lib/types";
-	import {
-		sessionConfig,
-		sessionStats,
-		sessionStartTime,
-	} from "$lib/stores/session";
-	import {
-		transcript,
-		addTranscriptEntry,
-		clearTranscript,
-	} from "$lib/stores/transcript";
-	import {
-		currentFeedback,
-		setFeedback,
-		clearFeedback,
-	} from "$lib/stores/feedback";
-	import { LiveSessionClient } from "$lib/services/liveClient";
-	import { analyzeTranscript } from "$lib/services/transcriptAnalyzer";
-	import { getPersonaDisplayName } from "$lib/data/personas";
-	import { getScenarioDisplayName } from "$lib/data/scenarios";
-	import SessionControls from "$lib/components/SessionControls.svelte";
-	import ThrelteScene from "$lib/components/ThrelteScene.svelte";
+	import { onMount, onDestroy } from 'svelte';
+	import { goto } from '$app/navigation';
+	import { browser } from '$app/environment';
+	import { get } from 'svelte/store';
+	import type { FeedbackMetric, SessionStats, SessionConfig } from '$lib/types';
+	import { sessionConfig, sessionStats, sessionStartTime } from '$lib/stores/session';
+	import { transcript, addTranscriptEntry, clearTranscript } from '$lib/stores/transcript';
+	import { currentFeedback, setFeedback, clearFeedback } from '$lib/stores/feedback';
+	import { LiveSessionClient } from '$lib/services/liveClient';
+	import { analyzeTranscript } from '$lib/services/transcriptAnalyzer';
+	import { getPersonaDisplayName } from '$lib/data/personas';
+	import { getScenarioDisplayName } from '$lib/data/scenarios';
+	import SessionControls from '$lib/components/SessionControls.svelte';
+	import ThrelteScene from '$lib/components/ThrelteScene.svelte';
 
 	let videoRef: HTMLVideoElement | null = $state(null);
 	let isConnected = $state(false);
@@ -42,6 +26,139 @@
 	let personaName = $state("");
 	let scenarioName = $state("");
 	let personaKey = $state<SessionConfig["persona"] | null>(null);
+
+	// Wingman state
+	let wingmanLoading = $state(false);
+	let wingmanOptions = $state<{
+		pivot: string;
+		joke: string;
+		question: string;
+	} | null>(null);
+	let showWingmanModal = $state(false);
+	let wingmanTimeout: number | null = null;
+
+	// Toast notification state
+	let toastMessage = $state<string | null>(null);
+	let toastTimeout: number | null = null;
+	let showSpacebarHint = $state(true);
+
+	// Subtitle/transcript display state
+	let showSubtitles = $state(true);
+
+	function showToast(message: string, duration = 3000) {
+		toastMessage = message;
+		if (toastTimeout) clearTimeout(toastTimeout);
+		toastTimeout = window.setTimeout(() => {
+			toastMessage = null;
+		}, duration);
+	}
+
+	async function selectWingmanOption(
+		optionType: "pivot" | "joke" | "question",
+		text: string,
+	) {
+		showWingmanModal = false;
+		wingmanOptions = null;
+		if (wingmanTimeout) {
+			clearTimeout(wingmanTimeout);
+			wingmanTimeout = null;
+		}
+
+		if (client) {
+			client.setMicMuted(true);
+			try {
+				const audioBlob = await elevenLabsService.convertTextToSpeech(
+					text,
+					ElevenLabsService.VOICES.MALE,
+				);
+				await client.injectAudioFromBlob(audioBlob);
+			} catch (e) {
+				console.error("Wingman TTS injection failed:", e);
+				showToast("Failed to send audio to AI", 2000);
+			} finally {
+				if (client) client.setMicMuted(false);
+			}
+		}
+
+		const labels = {
+			pivot: "🔄 Pivot Sent",
+			joke: "😄 Joke Sent",
+			question: "❓ Question Sent",
+		};
+		showToast(`${labels[optionType]} to AI! Mic muted.`);
+
+		// "Clear speech" effect: remove the stutter/silence from before
+		popLastUserEntry();
+		addTranscriptEntry("user", text);
+	}
+
+	async function handleWingmanRequest() {
+		if (wingmanLoading || !isConnected) return;
+
+		wingmanLoading = true;
+		showWingmanModal = true;
+
+		try {
+			const currentTranscript = get(transcript);
+			const transcriptText = currentTranscript
+				.map(
+					(entry) =>
+						`${entry.speaker === "user" ? "User" : "Date"}: ${entry.text}`,
+				)
+				.join("\n");
+
+			const response = await fetch("/api/wingman", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ transcript: transcriptText }),
+			});
+
+			const options = await response.json();
+			wingmanOptions = options;
+
+			if (wingmanTimeout) clearTimeout(wingmanTimeout);
+			wingmanTimeout = window.setTimeout(() => {
+				showWingmanModal = false;
+				wingmanOptions = null;
+			}, 10000);
+		} catch (error) {
+			console.error("Wingman request failed:", error);
+			wingmanOptions = {
+				pivot: "That reminds me - what do you think about...?",
+				joke: "Why don't eggs tell jokes? They'd crack each other up!",
+				question: "What's something you've always wanted to try?",
+			};
+		} finally {
+			wingmanLoading = false;
+		}
+	}
+
+	function dismissWingman() {
+		showWingmanModal = false;
+		wingmanOptions = null;
+		if (wingmanTimeout) {
+			clearTimeout(wingmanTimeout);
+			wingmanTimeout = null;
+		}
+	}
+
+	function handleKeydown(event: KeyboardEvent) {
+		if (
+			event.code === "Space" &&
+			!(
+				event.target instanceof HTMLInputElement ||
+				event.target instanceof HTMLTextAreaElement
+			)
+		) {
+			event.preventDefault();
+			handleWingmanRequest();
+		}
+		if (event.code === "Escape" && showWingmanModal) {
+			dismissWingman();
+		}
+	}
+
+	//  personaKey = $state<SessionConfig['persona'] | null>(null);
 
 	// Mock stats generator
 	function generateMockStats(): SessionStats {
@@ -126,6 +243,9 @@
 			videoRef.srcObject = videoStream;
 			await videoRef.play();
 
+			if (browser) {
+				window.addEventListener("keydown", handleKeydown);
+			}
 			// Record start time
 			sessionStartTime.set(Date.now());
 			clearTranscript();
@@ -499,6 +619,20 @@
 				{isConnected ? "Listening & Analyzing..." : "Connecting..."}
 			</p>
 		</div>
+
+		<!-- HUD Overlay (Wingman/Panic Button) -->
+		<MoodOverlay
+			{showSpacebarHint}
+			{wingmanLoading}
+			{showWingmanModal}
+			{wingmanOptions}
+			{toastMessage}
+			{selectWingmanOption}
+			{dismissWingman}
+		/>
+
+		<!-- Subtitles Overlay -->
+		<SubtitlesOverlay show={showSubtitles} />
 
 		<!-- Controls Bar -->
 		<SessionControls

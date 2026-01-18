@@ -1,3 +1,5 @@
+rsa_key.p8
+rsa_key.pub
 node_modules
 
 # Output
@@ -5,8 +7,8 @@ node_modules
 .vercel
 .netlify
 .wrangler
-/.svelte-kit
-/build
+.svelte-kit
+build
 
 # OS
 .DS_Store
