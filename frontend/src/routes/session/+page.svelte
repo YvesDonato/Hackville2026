@@ -202,7 +202,7 @@
 			"Your body language appeared open and engaged.",
 			"You handled pauses naturally without rushing to fill silence.",
 			"Your responses were well-structured and easy to follow.",
-			"Your eye contact was great!"
+			"Your eye contact was great!",
 		];
 
 		const improvementsPool = [
@@ -483,7 +483,9 @@
 	{/if}
 
 	<div class="flex h-screen flex-col overflow-hidden bg-slate-900 text-white">
-		<header class="z-30 flex items-center justify-between bg-white px-6 py-4 shadow-sm">
+		<header
+			class="z-30 flex items-center justify-between bg-white px-6 py-4 shadow-sm"
+		>
 			<a href="/" class="inline-flex items-center">
 				<Logo class="h-10 w-auto" />
 			</a>
@@ -499,7 +501,7 @@
 					Live Session &bull; {scenarioName}
 				</span>
 			</div>
-			<EndCallButton onclick={handleEndSession} />
+			
 		</header>
 
 		<!-- Main Scene Area -->
@@ -542,7 +544,7 @@
 			<!-- Visual Guardrail / Feedback Banner -->
 			{#if feedback}
 				<div
-					class="animate-fade-in absolute top-25 right-25 z-30 -translate-x-1/2 rounded-2xl px-6 py-3 shadow-lg backdrop-blur-md transition-all duration-500
+					class="animate-fade-in absolute left-1/2 top-8 z-[120] -translate-x-1/2 rounded-2xl px-6 py-3 shadow-lg backdrop-blur-md transition-all duration-500
 					{feedback.severity === 'info'
 						? 'border border-blue-400/30 bg-blue-500/20 text-blue-100'
 						: ''}
