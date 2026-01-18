@@ -6,8 +6,8 @@ export class ElevenLabsService {
 
     // Standard stable voices
     public static VOICES = {
-        FEMALE: "agent_4401kf7a33mbfjcrjbd4ypk3h6pc", // Rachel
-        MALE: "agent_8301kf7dg6v8fr19b90rkvv4n1ha",   // Adam
+        FEMALE: "FGY2WhTYpPnrIDTdsKH5", // Rachel
+        MALE: "IKne3meq5aSn9XLyUdCD",   // Adam
     };
 
     constructor(apiKey?: string) {
