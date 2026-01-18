@@ -45,5 +45,6 @@ declare module "$app/types" {
 		Pathname(): "/" | "/api" | "/api/" | "/api/scores" | "/api/scores/" | "/api/transcriptions" | "/api/transcriptions/" | "/api/wingman" | "/api/wingman/" | "/lab" | "/lab/" | "/rewind" | "/rewind/" | "/session" | "/session/" | "/textMentor" | "/textMentor/";
 		ResolvedPathname(): `${"" | `/${string}`}${ReturnType<AppTypes['Pathname']>}`;
 		Asset(): "/BlueHeart.png" | "/discordKitten.png" | "/ls" | "/robots.txt" | "/SarahTheSquare.png" | string & {};
+		Asset(): "/BlueHeart.png" | "/SarahTheSquare.png" | "/discordKitten.png" | "/robots.txt" | string & {};
 	}
 }
