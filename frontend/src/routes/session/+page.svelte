@@ -202,6 +202,7 @@
 			"Your body language appeared open and engaged.",
 			"You handled pauses naturally without rushing to fill silence.",
 			"Your responses were well-structured and easy to follow.",
+			"Your eye contact was great!"
 		];
 
 		const improvementsPool = [
@@ -210,6 +211,7 @@
 			"Practice active listening cues like nodding or brief verbal affirmations.",
 			"Work on varying your vocal tone to add more expressiveness.",
 			"Try to relax your shoulders during intense moments.",
+			"You did a great job of recovering after a small stumble.",
 		];
 
 		// Random selection
