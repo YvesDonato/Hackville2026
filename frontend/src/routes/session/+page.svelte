@@ -222,6 +222,7 @@
 
 		return {
 			duration,
+			score: Math.floor(Math.random() * 20) + 80,
 			strengths: shuffledStrengths.slice(0, 3),
 			improvements: shuffledImprovements.slice(0, 2),
 			transcript: currentTranscript,

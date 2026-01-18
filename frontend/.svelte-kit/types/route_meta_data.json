@@ -1,5 +1,24 @@
 {
-	"/": [],
+	"/": [
+		"src/routes/+page.server.ts",
+		"src/routes/+layout.server.ts",
+		"src/routes/+layout.server.ts"
+	],
+	"/api/auth/google": [
+		"src/routes/api/auth/google/+server.ts"
+	],
+	"/api/auth/google/callback": [
+		"src/routes/api/auth/google/callback/+server.ts"
+	],
+	"/api/auth/login": [
+		"src/routes/api/auth/login/+server.ts"
+	],
+	"/api/auth/logout": [
+		"src/routes/api/auth/logout/+server.ts"
+	],
+	"/api/auth/signup": [
+		"src/routes/api/auth/signup/+server.ts"
+	],
 	"/api/scores": [
 		"src/routes/api/scores/+server.ts"
 	],
@@ -9,9 +28,30 @@
 	"/api/wingman": [
 		"src/routes/api/wingman/+server.ts"
 	],
-	"/dashboard": [],
-	"/lab": [],
-	"/rewind": [],
-	"/session": [],
-	"/textMentor": []
+	"/dashboard": [
+		"src/routes/dashboard/+page.server.ts",
+		"src/routes/+layout.server.ts"
+	],
+	"/lab": [
+		"src/routes/lab/+page.server.ts",
+		"src/routes/+layout.server.ts"
+	],
+	"/login": [
+		"src/routes/+layout.server.ts"
+	],
+	"/rewind": [
+		"src/routes/rewind/+page.server.ts",
+		"src/routes/+layout.server.ts"
+	],
+	"/session": [
+		"src/routes/session/+page.server.ts",
+		"src/routes/+layout.server.ts"
+	],
+	"/signup": [
+		"src/routes/+layout.server.ts"
+	],
+	"/textMentor": [
+		"src/routes/textMentor/+page.server.ts",
+		"src/routes/+layout.server.ts"
+	]
 }

@@ -11,8 +11,12 @@ export const POST: RequestHandler = async ({ request }) => {
             return json({ error: 'Missing required fields: userId, transcription' }, { status: 400 });
         }
 
-        const client = await clientPromise;
-        const db = client.db();
+		const client = await clientPromise;
+		if (!client) {
+			return json({ error: 'Database unavailable' }, { status: 503 });
+		}
+		const db = client.db();
+
         const collection = db.collection('transcriptions');
 
         const result = await collection.insertOne({

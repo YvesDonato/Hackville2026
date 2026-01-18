@@ -1,16 +1,14 @@
 import { MongoClient } from 'mongodb';
 import { env } from '$env/dynamic/private';
 
-const uri = env.MONGODB_URI;
+const uri = env.MONGODB_URI ?? process.env.MONGODB_URI;
 const options = {};
 
 let client: MongoClient;
-let clientPromise: Promise<MongoClient> | null = null;
+let clientPromise: Promise<MongoClient>;
 
 if (!uri) {
-	if (process.env.NODE_ENV === 'development') {
-		console.warn('MONGODB_URI is not set. MongoDB will be unavailable.');
-	}
+	throw new Error('MONGODB_URI is not set.');
 } else if (process.env.NODE_ENV === 'development') {
 	// In development mode, use a global variable so that the value
 	// is preserved across module reloads caused by HMR (Hot Module Replacement).
