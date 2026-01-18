@@ -6,6 +6,7 @@
 	import type { SessionStats } from '$lib/types';
 	import { sessionStats, sessionConfig } from '$lib/stores/session';
 	import { clearTranscript } from '$lib/stores/transcript';
+	import Logo from '$lib/components/Logo.svelte';
 	import StrengthsList from '$lib/components/StrengthsList.svelte';
 	import ImprovementsList from '$lib/components/ImprovementsList.svelte';
 	import TranscriptViewer from '$lib/components/TranscriptViewer.svelte';
@@ -73,8 +74,8 @@
 		yPos += 10;
 		doc.setFontSize(12);
 		doc.setFont('helvetica', 'normal');
-		
-		stats.strengths.forEach(point => {
+
+		stats.strengths.forEach((point) => {
 			const lines = doc.splitTextToSize(`• ${point}`, maxLineWidth);
 			checkPageBreak(lines.length * 7);
 			doc.text(lines, margin + 5, yPos);
@@ -91,7 +92,7 @@
 		doc.setFontSize(12);
 		doc.setFont('helvetica', 'normal');
 
-		stats.improvements.forEach(point => {
+		stats.improvements.forEach((point) => {
 			const lines = doc.splitTextToSize(`• ${point}`, maxLineWidth);
 			checkPageBreak(lines.length * 7);
 			doc.text(lines, margin + 5, yPos);
@@ -107,31 +108,27 @@
 		yPos += 10;
 		doc.setFontSize(11);
 
-		stats.transcript.forEach(entry => {
+		stats.transcript.forEach((entry) => {
 			const speaker = entry.speaker === 'user' ? 'You' : 'Mentor';
 			const prefix = `${speaker}: `;
 			const text = entry.text;
-			
-			// Draw speaker name bold? 
-			// Simpler: just text for now
+
 			doc.setFont('helvetica', 'bold');
 			const prefixWidth = doc.getTextWidth(prefix);
 			checkPageBreak(7);
 			doc.text(prefix, margin, yPos);
-			
+
 			doc.setFont('helvetica', 'normal');
 			const lines = doc.splitTextToSize(text, maxLineWidth - prefixWidth);
-			// We need to carefully place the first line after the prefix
 			if (lines.length > 0) {
 				doc.text(lines[0], margin + prefixWidth, yPos);
-				// Remaining lines indented
 				for (let i = 1; i < lines.length; i++) {
 					checkPageBreak(7);
-					yPos += 5; // smaller spacing for transcript lines
-					doc.text(lines[i], margin + prefixWidth, yPos); // simple indent
+					yPos += 5;
+					doc.text(lines[i], margin + prefixWidth, yPos);
 				}
 			}
-			yPos += 8; // spacing between entries
+			yPos += 8;
 			checkPageBreak(10);
 		});
 
@@ -139,20 +136,27 @@
 	}
 
 	function saveReportAndExit() {
-		// Just save report for now, user can click practice again to clear
 		generatePDF();
 	}
 </script>
 
+
 {#if stats}
-	<div class="min-h-screen overflow-y-auto bg-pastel-slate p-6 md:p-12">
-		<div class="animate-slide-in mx-auto max-w-4xl space-y-8">
-			<!-- Header -->
-			<div class="mb-10 space-y-2 text-center">
-				<h1 class="text-4xl font-extrabold tracking-tight text-slate-800">The Rewind</h1>
-				<p class="text-lg text-slate-500">Here is a breakdown of your social vibe.</p>
-				<p class="text-sm text-slate-400">Session duration: {formatDuration(stats.duration)}</p>
-			</div>
+	<div class="min-h-screen bg-slate-50">
+		<header class="w-full bg-white px-6 py-4 shadow-sm">
+			<a href="/" class="inline-flex items-center">
+				<Logo class="h-10 w-auto" />
+			</a>
+		</header>
+
+		<div class="flex-1 overflow-y-auto p-6 md:p-12">
+			<div class="animate-slide-in mx-auto max-w-4xl space-y-8">
+				<!-- Header -->
+				<div class="mb-10 space-y-2 text-center">
+					<h1 class="text-4xl font-extrabold tracking-tight text-slate-800">The Rewind</h1>
+					<p class="text-lg text-slate-500">Here is a breakdown of your social vibe.</p>
+					<p class="text-sm text-slate-400">Session duration: {formatDuration(stats.duration)}</p>
+				</div>
 
 			<!-- Qualitative Feedback Columns -->
 			<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -188,7 +192,7 @@
 				<button
 					type="button"
 					onclick={practiceAgain}
-					class="flex transform items-center justify-center gap-2 rounded-full bg-slate-900 px-8 py-4 font-semibold text-white shadow-lg transition-all hover:-translate-y-1 hover:bg-black hover:shadow-xl"
+					class="flex transform items-center justify-center gap-2 rounded-full bg-lblue px-8 py-4 font-semibold text-slate-800 shadow-lg transition-all hover:-translate-y-1 hover:bg-mblue hover:shadow-xl"
 				>
 					<!-- Refresh icon -->
 					<svg
@@ -212,7 +216,7 @@
 				<button
 					type="button"
 					onclick={saveReportAndExit}
-					class="flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-8 py-4 font-semibold text-slate-700 transition-all hover:bg-slate-50"
+					class="flex items-center justify-center gap-2 rounded-full border-2 border-mblue bg-white px-8 py-4 font-semibold text-slate-800 shadow-sm transition-all hover:bg-lblue"
 				>
 					<!-- Download icon -->
 					<svg
@@ -234,6 +238,7 @@
 				</button>
 			</div>
 		</div>
+	</div>
 	</div>
 {:else}
 	<div class="flex min-h-screen items-center justify-center bg-slate-50">

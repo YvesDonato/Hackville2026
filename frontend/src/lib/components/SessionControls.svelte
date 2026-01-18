@@ -1,4 +1,6 @@
 <script lang="ts">
+	import EndCallButton from '$lib/components/EndCallButton.svelte';
+
 	interface Props {
 		micActive?: boolean;
 		isConnected?: boolean;
@@ -16,9 +18,7 @@
 	}
 </script>
 
-<div
-	class="z-20 flex items-center justify-center gap-6 border-t border-white/10 bg-black/80 p-6 backdrop-blur-md"
->
+<div class="z-20 flex items-center justify-center gap-6 border-t border-white/10 bg-white p-6 backdrop-blur-md">
 	<button
 		type="button"
 		onclick={toggleMic}
@@ -80,28 +80,6 @@
 
 	<div class="mx-2 h-12 w-[1px] bg-white/10"></div>
 
-	<button
-		type="button"
-		onclick={onEndSession}
-		class="flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/20 px-4 py-2 text-red-100 backdrop-blur-sm transition-all hover:bg-red-500/40"
-	>
-		<!-- Phone off icon -->
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			width="18"
-			height="18"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			stroke-width="2"
-			stroke-linecap="round"
-			stroke-linejoin="round"
-		>
-			<path
-				d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"
-			/>
-			<line x1="22" x2="2" y1="2" y2="22" />
-		</svg>
-		<span class="text-sm font-semibold">End Call</span>
-	</button>
+	<EndCallButton onclick={onEndSession} />
+
 </div>

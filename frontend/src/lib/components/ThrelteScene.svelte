@@ -8,7 +8,7 @@
 </script>
 
 <div class="threlte-container">
-	<Canvas>
+	<Canvas colorManagementEnabled={false} toneMapping={0}>
 		<T.PerspectiveCamera
 			makeDefault
 			position={[0, 0, 5]}
@@ -30,7 +30,7 @@
 		width: 100%;
 		height: 100%;
 		min-height: 100%;
-		background: #999999;
+		background: #83C3CE;
 	}
 
 	.threlte-container :global(canvas) {

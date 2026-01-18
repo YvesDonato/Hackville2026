@@ -14,15 +14,13 @@
 		<button
 			type="button"
 			onclick={() => selectScenario(scenario.id)}
-			class="w-full rounded-xl border-2 p-4 text-left transition-all {selected === scenario.id
-				? 'border-emerald-500 bg-emerald-50'
-				: 'border-white bg-white hover:border-slate-200'}"
+			class="w-full rounded-3xl border-4 p-4 text-left transition-all {selected === scenario.id
+				? 'border-mblue bg-lblue'
+				: 'border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50'}"
 		>
 			<div class="flex items-center gap-4">
 				<div
-					class="flex items-center justify-center rounded-full p-3 {selected === scenario.id
-						? 'bg-emerald-100 text-emerald-600'
-						: 'bg-slate-100 text-slate-500'}"
+					class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-500"
 				>
 					{#if scenario.icon === 'coffee'}
 						<svg
@@ -74,10 +72,10 @@
 						</svg>
 					{/if}
 				</div>
-				<span class="font-medium text-slate-700">{scenario.name}</span>
-				{#if selected === scenario.id}
-					<div class="ml-auto text-emerald-600">●</div>
-				{/if}
+				<div class="flex-1">
+					<div class="text-2xl font-semibold text-slate-800">{scenario.name}</div>
+				</div>
+				<p class="text-mblue mr-2">●</p>
 			</div>
 		</button>
 	{/each}

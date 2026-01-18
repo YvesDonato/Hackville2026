@@ -44,7 +44,7 @@
                     <div
                         class="max-w-[85%] rounded-2xl px-5 py-2.5 shadow-sm backdrop-blur-md transition-all
 						{entry.speaker === 'user'
-                            ? 'bg-indigo-600/30 text-indigo-100/90 rounded-tr-sm border border-indigo-400/10'
+                            ? 'bg-mblue rounded-tr-sm border border-indigo-400/10'
                             : 'bg-slate-800/60 text-slate-100/90 rounded-tl-sm border border-white/5'}"
                     >
                         <p

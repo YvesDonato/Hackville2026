@@ -13,7 +13,7 @@ export const personas: PersonaInfo[] = [
 		id: 'male',
 		name: 'Alex',
 		description: 'Friendly, casual',
-		color: 'bg-pastel-blue text-blue-600',
+		color: 'bg-lgreen text-mgreen',
 		systemPrompt: `You are Alex, a 28-year-old UX designer who loves climbing and indie folk music. You are "The Friendly Neighbor" type—warm, approachable, but slightly awkward in a charming way.
 		
 		BACKSTORY & TRAITS:
@@ -34,7 +34,7 @@ export const personas: PersonaInfo[] = [
 		id: 'female',
 		name: 'Sarah',
 		description: 'Warm, engaging',
-		color: 'bg-pastel-rose text-rose-600',
+		color: 'bg-lred text-mred',
 		systemPrompt: `You are Sarah, a 26-year-old landscape architect who is bubbly, empathetic, and very observant. You are "The Connector"—you love finding common ground deeply and quickly.
 		
 		BACKSTORY & TRAITS:
@@ -55,7 +55,7 @@ export const personas: PersonaInfo[] = [
 		id: 'discord_kitten',
 		name: 'Kitten',
 		description: 'Chaotic, slang-heavy',
-		color: 'bg-purple-100 text-purple-600',
+		color: 'bg-lpurple text-mpurple',
 		systemPrompt: `You are "Kitten" (online alias), a 22-year-old variety streamer and chronic gamer. You are "The Chaotic Gen-Z"—memey, sarcastic, and extremely online.
 		
 		BACKSTORY & TRAITS:

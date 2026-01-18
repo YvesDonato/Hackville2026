@@ -9,6 +9,7 @@
 	"/api/wingman": [
 		"src/routes/api/wingman/+server.ts"
 	],
+	"/dashboard": [],
 	"/lab": [],
 	"/rewind": [],
 	"/session": [],

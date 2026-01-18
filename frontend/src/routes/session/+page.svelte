@@ -32,6 +32,8 @@
 	} from "$lib/services/elevenLabs";
 	import { getPersonaDisplayName } from "$lib/data/personas";
 	import { getScenarioDisplayName } from "$lib/data/scenarios";
+	import Logo from "$lib/components/Logo.svelte";
+	import EndCallButton from "$lib/components/EndCallButton.svelte";
 	import SessionControls from "$lib/components/SessionControls.svelte";
 	import ThrelteScene from "$lib/components/ThrelteScene.svelte";
 	import MoodOverlay from "$lib/components/MoodOverlay.svelte";
@@ -477,13 +479,11 @@
 		</div>
 	{/if}
 
-	<div
-		class="relative flex h-screen flex-col overflow-hidden bg-slate-900 text-white"
-	>
-		<!-- Top Bar -->
-		<div
-			class="absolute left-0 right-0 top-0 z-20 flex items-center justify-between bg-gradient-to-b from-black/50 to-transparent p-4"
-		>
+	<div class="flex h-screen flex-col overflow-hidden bg-slate-900 text-white">
+		<header class="z-30 flex items-center justify-between bg-white px-6 py-4 shadow-sm">
+			<a href="/" class="inline-flex items-center">
+				<Logo class="h-10 w-auto" />
+			</a>
 			<div class="flex items-center gap-2">
 				<span
 					class="h-2 w-2 rounded-full {isConnected
@@ -491,54 +491,31 @@
 						: 'bg-slate-500'}"
 				></span>
 				<span
-					class="text-sm font-medium uppercase tracking-wide opacity-80"
+					class="text-sm font-medium uppercase tracking-wide text-slate-600"
 				>
 					Live Session &bull; {scenarioName}
 				</span>
 			</div>
-			<button
-				type="button"
-				onclick={handleEndSession}
-				class="flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/20 px-4 py-2 text-red-100 backdrop-blur-sm transition-all hover:bg-red-500/40"
-			>
-				<!-- Phone off icon -->
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					width="18"
-					height="18"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-				>
-					<path
-						d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"
-					/>
-					<line x1="22" x2="2" y1="2" y2="22" />
-				</svg>
-				<span class="text-sm font-semibold">End Call</span>
-			</button>
-		</div>
+			<EndCallButton onclick={handleEndSession} />
+		</header>
 
 		<!-- Main Scene Area -->
 		<div class="relative flex flex-1 items-center justify-center">
 			<!-- Threlte 3D Scene Background -->
 			{#if browser}
-				<div class="absolute inset-0 z-0 h-full w-full">
+				<div class="absolute inset-0 z-[100] h-full w-full">
 					<ThrelteScene persona={personaKey ?? undefined} />
 				</div>
 			{/if}
 
 			<!-- Self View (User) - PiP Style in Bottom Right -->
-			<div class="absolute bottom-5 right-5 z-20">
+			<div class="absolute bottom-5 right-5 z-[110]">
 				<div
 					class="relative overflow-hidden rounded-xl border-2 border-white/20 shadow-2xl"
 				>
 					<video
 						bind:this={videoRef}
-						class="h-[450px] w-[500px] object-cover"
+						class="h-[350px] w-[500px] object-cover"
 						muted
 						playsinline
 					></video>
@@ -562,7 +539,7 @@
 			<!-- Visual Guardrail / Feedback Banner -->
 			{#if feedback}
 				<div
-					class="animate-fade-in absolute bottom-32 left-1/2 z-30 -translate-x-1/2 rounded-2xl px-6 py-3 shadow-lg backdrop-blur-md transition-all duration-500
+					class="animate-fade-in absolute top-25 right-25 z-30 -translate-x-1/2 rounded-2xl px-6 py-3 shadow-lg backdrop-blur-md transition-all duration-500
 					{feedback.severity === 'info'
 						? 'border border-blue-400/30 bg-blue-500/20 text-blue-100'
 						: ''}
@@ -635,14 +612,14 @@
 		</div>
 
 		<!-- Persona Overlay -->
-		<div class="z-10 flex flex-col items-center py-4 text-center">
+		<div class="z-10 flex flex-col bg-mblue items-center py-4 text-center">
 			<h2 class="mb-1 text-xl font-light tracking-tight">
 				{personaName}
 				{#if config.persona === "discord_kitten"}
 					<span>&#128572;</span>
 				{/if}
 			</h2>
-			<p class="text-sm text-indigo-200/60">
+			<p class="text-sm text-white">
 				{isConnected ? "Listening & Analyzing..." : "Connecting..."}
 			</p>
 		</div>

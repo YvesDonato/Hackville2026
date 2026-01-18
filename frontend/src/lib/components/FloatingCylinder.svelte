@@ -20,7 +20,7 @@
 	// Load textures using THREE.TextureLoader
 	const textureLoader = new THREE.TextureLoader();
 	const textures: Record<string, THREE.Texture> = {
-		male: textureLoader.load('/BlueHeart.png'),
+		male: textureLoader.load('/alex.png'),
 		female: textureLoader.load('/SarahTheSquare.png'),
 		discord_kitten: textureLoader.load('/discordKitten.png')
 	};
@@ -41,7 +41,7 @@
 	}}
 >
 	<T.CylinderGeometry args={[1.2, 1.2, 1.2, 48]} />
-	<T.MeshStandardMaterial color="#9ca3af" roughness={0.6} metalness={0.1} />
+	<T.MeshStandardMaterial color="#C0F6FF" roughness={0.6} metalness={0.1} />
 
 	{#if persona && textures[persona]}
 		<Decal

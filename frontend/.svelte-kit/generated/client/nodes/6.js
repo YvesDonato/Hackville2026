@@ -1,1 +1,1 @@
-export { default as component } from "../../../../src/routes/textMentor/+page.svelte";
+export { default as component } from "../../../../src/routes/session/+page.svelte";

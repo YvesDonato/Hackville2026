@@ -4,12 +4,12 @@
 	import LogoMascot from '$lib/components/LogoMascot.svelte';
 </script>
 
-<div class="flex min-h-screen items-center justify-center">
+<div class="animate-slide-in flex min-h-screen items-center justify-center">
   <div class="flex flex-col mr-4">
     <LogoText />
     <button
       class="text-2xl text-center font-medium w-70 mt-7 mb-4 p-3 drop-shadow-xl rounded-full bg-lblue"
-      onclick={() => goto('/lab')}
+      onclick={() => goto('/dashboard')}
     >
       Sign Up Now -->
     </button>
@@ -21,5 +21,23 @@
       </div>
     </div>
   </div>
-    <LogoMascot />
+    <div class="mascot-bob">
+      <LogoMascot />
+    </div>
 </div>
+
+<style>
+  @keyframes mascot-bob {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-12px);
+    }
+  }
+
+  .mascot-bob {
+    animation: mascot-bob 2.6s ease-in-out infinite;
+  }
+</style>
