@@ -219,8 +219,10 @@
 
 	// Watch for mic toggle and mute/unmute audio
 	$effect(() => {
+		console.log('Mic effect triggered, micActive:', micActive, 'client:', !!client);
 		if (client) {
 			client.setMicMuted(!micActive);
+			console.log('Called setMicMuted with:', !micActive);
 		}
 	});
 
