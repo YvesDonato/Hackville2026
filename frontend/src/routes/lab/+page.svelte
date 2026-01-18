@@ -9,6 +9,7 @@
 	import AlexIcon from '$lib/components/persona-icons/AlexIcon.svelte';
 	import SarahIcon from '$lib/components/persona-icons/SarahIcon.svelte';
 	import KittenIcon from '$lib/components/persona-icons/KittenIcon.svelte';
+	import ArrowIcon from '$lib/components/ArrowIcon.svelte';
 	import { scenarios } from '$lib/data/scenarios';
 
 	let selectedPersona = $state<Persona | null>(null);
@@ -110,9 +111,10 @@
 						type="button"
 						disabled={!selectedPersona}
 						onclick={goToScenarioStep}
-            class="text-2xl text-center font-medium w-70 mt-7 mb-4 p-3 drop-shadow-xl rounded-full bg-lblue transition-all hover:bg-mblue disabled:cursor-not-allowed disabled:opacity-50"
+            class="text-2xl text-center font-medium w-70 mt-7 mb-4 p-3 drop-shadow-xl rounded-full bg-lblue transition-all hover:bg-mblue disabled:cursor-not-allowed disabled:opacity-50 flex items-center justify-center gap-2"
           >
-						Next -->
+						Next
+						<ArrowIcon />
 					</button>
 				</div>
 			{:else}

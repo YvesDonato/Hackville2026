@@ -2,16 +2,18 @@
 	import { goto } from '$app/navigation';
 	import LogoText from '$lib/components/LogoText.svelte';
 	import LogoMascot from '$lib/components/LogoMascot.svelte';
+	import ArrowIcon from '$lib/components/ArrowIcon.svelte';
 </script>
 
 <div class="animate-slide-in flex min-h-screen items-center justify-center">
   <div class="flex flex-col mr-4">
     <LogoText />
     <button
-      class="text-2xl text-center font-medium w-70 mt-7 mb-4 p-3 drop-shadow-xl rounded-full bg-lblue"
+      class="text-2xl text-center font-medium w-70 mt-7 mb-4 p-3 drop-shadow-xl rounded-full bg-lblue flex items-center justify-center gap-2"
       onclick={() => goto('/signup')}
     >
-      Sign Up Now -->
+      Sign Up Now
+      <ArrowIcon />
     </button>
     <div class="flex flex-row items-center"> 
       <p class="font-medium text-2xl"> Already have an account?</p> 
