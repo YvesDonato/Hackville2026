@@ -1,18 +1,41 @@
 <script lang="ts">
-	import { onMount, onDestroy } from 'svelte';
-	import { goto } from '$app/navigation';
-	import { browser } from '$app/environment';
-	import { get } from 'svelte/store';
-	import type { FeedbackMetric, SessionStats, SessionConfig } from '$lib/types';
-	import { sessionConfig, sessionStats, sessionStartTime } from '$lib/stores/session';
-	import { transcript, addTranscriptEntry, clearTranscript } from '$lib/stores/transcript';
-	import { currentFeedback, setFeedback, clearFeedback } from '$lib/stores/feedback';
-	import { LiveSessionClient } from '$lib/services/liveClient';
-	import { analyzeTranscript } from '$lib/services/transcriptAnalyzer';
-	import { getPersonaDisplayName } from '$lib/data/personas';
-	import { getScenarioDisplayName } from '$lib/data/scenarios';
-	import SessionControls from '$lib/components/SessionControls.svelte';
-	import ThrelteScene from '$lib/components/ThrelteScene.svelte';
+	import { onMount, onDestroy } from "svelte";
+	import { goto } from "$app/navigation";
+	import { browser } from "$app/environment";
+	import { get } from "svelte/store";
+	import type {
+		FeedbackMetric,
+		SessionStats,
+		SessionConfig,
+	} from "$lib/types";
+	import {
+		sessionConfig,
+		sessionStats,
+		sessionStartTime,
+	} from "$lib/stores/session";
+	import {
+		transcript,
+		addTranscriptEntry,
+		clearTranscript,
+		popLastUserEntry,
+	} from "$lib/stores/transcript";
+	import {
+		currentFeedback,
+		setFeedback,
+		clearFeedback,
+	} from "$lib/stores/feedback";
+	import { LiveSessionClient } from "$lib/services/liveClient";
+	import { analyzeTranscript } from "$lib/services/transcriptAnalyzer";
+	import {
+		elevenLabsService,
+		ElevenLabsService,
+	} from "$lib/services/elevenLabs";
+	import { getPersonaDisplayName } from "$lib/data/personas";
+	import { getScenarioDisplayName } from "$lib/data/scenarios";
+	import SessionControls from "$lib/components/SessionControls.svelte";
+	import ThrelteScene from "$lib/components/ThrelteScene.svelte";
+	import MoodOverlay from "$lib/components/MoodOverlay.svelte";
+	import SubtitlesOverlay from "$lib/components/SubtitlesOverlay.svelte";
 
 	let videoRef: HTMLVideoElement | null = $state(null);
 	let isConnected = $state(false);
