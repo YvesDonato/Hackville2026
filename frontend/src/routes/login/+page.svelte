@@ -1,30 +1,30 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import Logo from '$lib/components/Logo.svelte';
+	import { goto } from "$app/navigation";
+	import Logo from "$lib/components/Logo.svelte";
 
-	let email = $state('');
-	let password = $state('');
-	let error = $state('');
+	let email = $state("");
+	let password = $state("");
+	let error = $state("");
 	let loading = $state(false);
 
 	const handleSubmit = async () => {
 		if (!email || !password) return;
 		loading = true;
-		error = '';
+		error = "";
 		try {
-			const res = await fetch('/api/auth/login', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email, password })
+			const res = await fetch("/api/auth/login", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ email, password }),
 			});
 			if (!res.ok) {
 				const data = await res.json().catch(() => ({}));
-				error = data.error || 'Login failed.';
+				error = data.error || "Login failed.";
 			} else {
-				goto('/dashboard');
+				goto("/dashboard");
 			}
 		} catch {
-			error = 'Login failed.';
+			error = "Login failed.";
 		} finally {
 			loading = false;
 		}
@@ -39,11 +39,21 @@
 	</header>
 
 	<div class="flex flex-1 items-center justify-center p-6">
-		<div class="border-4 border-mblue w-full max-w-2xl rounded-3xl bg-white p-10 shadow-xl">
+		<div
+			class="border-4 border-mblue w-full max-w-2xl rounded-3xl bg-white p-10 shadow-xl"
+		>
 			<h1 class="text-3xl font-semibold text-slate-800">Log in</h1>
-			<p class="mt-2 text-slate-600">Welcome back. Continue your session.</p>
+			<p class="mt-2 text-slate-600">
+				Welcome back. Continue your session.
+			</p>
 
-			<div class="mt-8 space-y-4">
+			<form
+				class="mt-8 space-y-4"
+				onsubmit={(e) => {
+					e.preventDefault();
+					handleSubmit();
+				}}
+			>
 				<input
 					class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-800 placeholder-slate-400 focus:border-mblue focus:ring-mblue"
 					type="email"
@@ -56,24 +66,33 @@
 					placeholder="Password"
 					bind:value={password}
 				/>
-			</div>
 
-			{#if error}
-				<p class="mt-4 rounded-lg bg-red-50 p-3 text-sm text-red-600">{error}</p>
-			{/if}
+				{#if error}
+					<p
+						class="mt-4 rounded-lg bg-red-50 p-3 text-sm text-red-600"
+					>
+						{error}
+					</p>
+				{/if}
 
-			<div class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center">
-				<button
-					class="text-2xl text-center font-medium w-70 p-3 drop-shadow-xl rounded-full bg-lblue transition-all hover:bg-mblue disabled:cursor-not-allowed disabled:opacity-50"
-					onclick={handleSubmit}
-					disabled={loading}
+				<div
+					class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center"
 				>
-					{loading ? 'Signing in...' : 'Log in'}
-				</button>
-			</div>
+					<button
+						class="text-2xl text-center font-medium w-full sm:w-72 p-3 drop-shadow-xl rounded-full bg-lblue transition-all hover:bg-mblue disabled:cursor-not-allowed disabled:opacity-50"
+						type="submit"
+						disabled={loading}
+					>
+						{loading ? "Signing in..." : "Log in"}
+					</button>
+				</div>
+			</form>
 
 			<p class="mt-6 text-center text-slate-600">
-				Don't have an account? <a href="/signup" class="font-semibold text-mblue hover:underline">Sign up</a>
+				Don't have an account? <a
+					href="/signup"
+					class="font-semibold text-mblue hover:underline">Sign up</a
+				>
 			</p>
 		</div>
 	</div>
