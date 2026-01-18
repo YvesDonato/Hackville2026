@@ -34,7 +34,6 @@ declare module '$env/static/private' {
 	export const HYPRLAND_CMD: string;
 	export const XDG_CONFIG_DIRS: string;
 	export const npm_config_cache: string;
-	export const ZELLIJ_SESSION_NAME: string;
 	export const NIX_LD_LIBRARY_PATH: string;
 	export const NIX_BUILD_CORES: string;
 	export const TERM_PROGRAM_VERSION: string;
@@ -51,6 +50,7 @@ declare module '$env/static/private' {
 	export const DIRENV_DIR: string;
 	export const STRINGS: string;
 	export const depsTargetTarget: string;
+	export const AGENT: string;
 	export const XCURSOR_PATH: string;
 	export const stdenv: string;
 	export const PROMPT_MULTILINE_INDICATOR: string;
@@ -61,6 +61,7 @@ declare module '$env/static/private' {
 	export const PROMPT_INDICATOR_VI_INSERT: string;
 	export const DESKTOP_SESSION: string;
 	export const GDK_PIXBUF_MODULE_FILE: string;
+	export const HL_INITIAL_WORKSPACE_TOKEN: string;
 	export const shellHook: string;
 	export const NO_AT_BRIDGE: string;
 	export const npm_config_globalconfig: string;
@@ -70,10 +71,9 @@ declare module '$env/static/private' {
 	export const XDG_SEAT: string;
 	export const PWD: string;
 	export const SOURCE_DATE_EPOCH: string;
-	export const XDG_SESSION_DESKTOP: string;
 	export const LOGNAME: string;
+	export const XDG_SESSION_DESKTOP: string;
 	export const QT_QPA_PLATFORMTHEME: string;
-	export const ZELLIJ_PANE_ID: string;
 	export const XDG_SESSION_TYPE: string;
 	export const NIX_ENFORCE_NO_NATIVE: string;
 	export const CUPS_DATADIR: string;
@@ -88,13 +88,13 @@ declare module '$env/static/private' {
 	export const QT_STYLE_OVERRIDE: string;
 	export const GDM_LANG: string;
 	export const IN_NIX_SHELL: string;
-	export const NIXPKGS_QT6_QML_IMPORT_PATH: string;
 	export const doInstallCheck: string;
 	export const GI_TYPELIB_PATH: string;
 	export const GHOSTTY_SHELL_FEATURES: string;
 	export const HOME: string;
 	export const USERNAME: string;
 	export const NIX_BINTOOLS: string;
+	export const OPENCODE: string;
 	export const LANG: string;
 	export const NIXOS_OZONE_WL: string;
 	export const _JAVA_AWT_WM_NONREPARENTING: string;
@@ -104,8 +104,8 @@ declare module '$env/static/private' {
 	export const STARSHIP_SHELL: string;
 	export const WAYLAND_DISPLAY: string;
 	export const cmakeFlags: string;
-	export const outputs: string;
 	export const GIO_EXTRA_MODULES: string;
+	export const outputs: string;
 	export const NIX_STORE: string;
 	export const LD: string;
 	export const buildPhase: string;
@@ -122,16 +122,16 @@ declare module '$env/static/private' {
 	export const GHOSTTY_RESOURCES_DIR: string;
 	export const depsBuildBuild: string;
 	export const XDG_SESSION_CLASS: string;
-	export const TERMINFO: string;
 	export const TERM: string;
+	export const TERMINFO: string;
 	export const npm_package_name: string;
 	export const PROMPT_INDICATOR_VI_NORMAL: string;
 	export const GTK_PATH: string;
 	export const SIZE: string;
 	export const propagatedNativeBuildInputs: string;
 	export const npm_config_prefix: string;
-	export const strictDeps: string;
 	export const USER: string;
+	export const strictDeps: string;
 	export const PROMPT_INDICATOR: string;
 	export const TZDIR: string;
 	export const NIX_LD: string;
@@ -149,8 +149,8 @@ declare module '$env/static/private' {
 	export const patches: string;
 	export const XDG_VTNR: string;
 	export const buildInputs: string;
-	export const XDG_SESSION_ID: string;
 	export const TRANSIENT_PROMPT_COMMAND_RIGHT: string;
+	export const XDG_SESSION_ID: string;
 	export const preferLocalBuild: string;
 	export const LOCALE_ARCHIVE: string;
 	export const npm_config_user_agent: string;
@@ -178,11 +178,10 @@ declare module '$env/static/private' {
 	export const propagatedBuildInputs: string;
 	export const npm_config_node_gyp: string;
 	export const dontAddDisableDepTrack: string;
-	export const GDMSESSION: string;
 	export const CC: string;
-	export const ZELLIJ: string;
-	export const NIX_CC: string;
+	export const GDMSESSION: string;
 	export const FILE_PWD: string;
+	export const NIX_CC: string;
 	export const DBUS_SESSION_BUS_ADDRESS: string;
 	export const depsBuildTargetPropagated: string;
 	export const depsBuildBuildPropagated: string;
@@ -204,7 +203,6 @@ declare module '$env/static/private' {
 	export const TERM_PROGRAM: string;
 	export const PKG_CONFIG: string;
 	export const depsHostHostPropagated: string;
-	export const NODE_ENV: string;
 }
 
 /**
@@ -243,7 +241,6 @@ declare module '$env/dynamic/private' {
 		HYPRLAND_CMD: string;
 		XDG_CONFIG_DIRS: string;
 		npm_config_cache: string;
-		ZELLIJ_SESSION_NAME: string;
 		NIX_LD_LIBRARY_PATH: string;
 		NIX_BUILD_CORES: string;
 		TERM_PROGRAM_VERSION: string;
@@ -260,6 +257,7 @@ declare module '$env/dynamic/private' {
 		DIRENV_DIR: string;
 		STRINGS: string;
 		depsTargetTarget: string;
+		AGENT: string;
 		XCURSOR_PATH: string;
 		stdenv: string;
 		PROMPT_MULTILINE_INDICATOR: string;
@@ -270,6 +268,7 @@ declare module '$env/dynamic/private' {
 		PROMPT_INDICATOR_VI_INSERT: string;
 		DESKTOP_SESSION: string;
 		GDK_PIXBUF_MODULE_FILE: string;
+		HL_INITIAL_WORKSPACE_TOKEN: string;
 		shellHook: string;
 		NO_AT_BRIDGE: string;
 		npm_config_globalconfig: string;
@@ -279,10 +278,9 @@ declare module '$env/dynamic/private' {
 		XDG_SEAT: string;
 		PWD: string;
 		SOURCE_DATE_EPOCH: string;
-		XDG_SESSION_DESKTOP: string;
 		LOGNAME: string;
+		XDG_SESSION_DESKTOP: string;
 		QT_QPA_PLATFORMTHEME: string;
-		ZELLIJ_PANE_ID: string;
 		XDG_SESSION_TYPE: string;
 		NIX_ENFORCE_NO_NATIVE: string;
 		CUPS_DATADIR: string;
@@ -297,13 +295,13 @@ declare module '$env/dynamic/private' {
 		QT_STYLE_OVERRIDE: string;
 		GDM_LANG: string;
 		IN_NIX_SHELL: string;
-		NIXPKGS_QT6_QML_IMPORT_PATH: string;
 		doInstallCheck: string;
 		GI_TYPELIB_PATH: string;
 		GHOSTTY_SHELL_FEATURES: string;
 		HOME: string;
 		USERNAME: string;
 		NIX_BINTOOLS: string;
+		OPENCODE: string;
 		LANG: string;
 		NIXOS_OZONE_WL: string;
 		_JAVA_AWT_WM_NONREPARENTING: string;
@@ -313,8 +311,8 @@ declare module '$env/dynamic/private' {
 		STARSHIP_SHELL: string;
 		WAYLAND_DISPLAY: string;
 		cmakeFlags: string;
-		outputs: string;
 		GIO_EXTRA_MODULES: string;
+		outputs: string;
 		NIX_STORE: string;
 		LD: string;
 		buildPhase: string;
@@ -331,16 +329,16 @@ declare module '$env/dynamic/private' {
 		GHOSTTY_RESOURCES_DIR: string;
 		depsBuildBuild: string;
 		XDG_SESSION_CLASS: string;
-		TERMINFO: string;
 		TERM: string;
+		TERMINFO: string;
 		npm_package_name: string;
 		PROMPT_INDICATOR_VI_NORMAL: string;
 		GTK_PATH: string;
 		SIZE: string;
 		propagatedNativeBuildInputs: string;
 		npm_config_prefix: string;
-		strictDeps: string;
 		USER: string;
+		strictDeps: string;
 		PROMPT_INDICATOR: string;
 		TZDIR: string;
 		NIX_LD: string;
@@ -358,8 +356,8 @@ declare module '$env/dynamic/private' {
 		patches: string;
 		XDG_VTNR: string;
 		buildInputs: string;
-		XDG_SESSION_ID: string;
 		TRANSIENT_PROMPT_COMMAND_RIGHT: string;
+		XDG_SESSION_ID: string;
 		preferLocalBuild: string;
 		LOCALE_ARCHIVE: string;
 		npm_config_user_agent: string;
@@ -387,11 +385,10 @@ declare module '$env/dynamic/private' {
 		propagatedBuildInputs: string;
 		npm_config_node_gyp: string;
 		dontAddDisableDepTrack: string;
-		GDMSESSION: string;
 		CC: string;
-		ZELLIJ: string;
-		NIX_CC: string;
+		GDMSESSION: string;
 		FILE_PWD: string;
+		NIX_CC: string;
 		DBUS_SESSION_BUS_ADDRESS: string;
 		depsBuildTargetPropagated: string;
 		depsBuildBuildPropagated: string;
@@ -413,7 +410,6 @@ declare module '$env/dynamic/private' {
 		TERM_PROGRAM: string;
 		PKG_CONFIG: string;
 		depsHostHostPropagated: string;
-		NODE_ENV: string;
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: `${string}`]: string | undefined;
 	}

@@ -4,6 +4,10 @@
 </script>
 
 <div class="flex min-h-screen items-center justify-center">
-	<LogoText />
-	<LogoMascot />
+  <div class="flex flex-col">
+    <LogoText />
+
+    <p class="font-medium text-xl"> Already have an account?</p>
+	</div>
+    <LogoMascot />
 </div>
