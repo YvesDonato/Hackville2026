@@ -166,8 +166,8 @@
 			// Fallback to empty feedback
 			const stats: SessionStats = {
 				duration,
-				strengths: ['Unable to analyze session'],
-				improvements: ['Unable to analyze session'],
+				strengths: ['Session too short'],
+				improvements: ['Session too short'],
 				transcript: currentTranscript
 			};
 			sessionStats.set(stats);
@@ -209,6 +209,13 @@
 	$effect(() => {
 		if (config && videoRef && !isConnected && !client) {
 			initSession();
+		}
+	});
+
+	// Watch for mic toggle and mute/unmute audio
+	$effect(() => {
+		if (client) {
+			client.setMicMuted(!micActive);
 		}
 	});
 

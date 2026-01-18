@@ -292,6 +292,14 @@ export class LiveSessionClient {
 		}, 1000 / FRAME_RATE);
 	}
 
+	setMicMuted(muted: boolean) {
+		if (this.audioStream) {
+			this.audioStream.getAudioTracks().forEach((track) => {
+				track.enabled = !muted;
+			});
+		}
+	}
+
 	async disconnect() {
 		// Clear intervals
 		if (this.videoInterval) clearInterval(this.videoInterval);
