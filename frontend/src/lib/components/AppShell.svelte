@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Logo from "$lib/components/Logo.svelte";
 	export let title: string;
 	export let subtitle: string | null = null;
 	export let primaryCta: { label: string; href: string } | null = null;
@@ -7,9 +8,11 @@
 
 <div class="min-h-screen bg-slate-50">
 	<div class="mx-auto flex w-full max-w-6xl flex-col gap-10 px-6 py-10">
-		<header class="flex flex-col gap-6 rounded-3xl border border-slate-200 bg-white/80 px-6 py-8 shadow-sm">
+		<header
+			class="flex flex-col gap-6 rounded-3xl border border-slate-200 bg-white/80 px-6 py-8 shadow-sm"
+		>
 			<div class="flex flex-col gap-3">
-				<p class="text-xs font-semibold uppercase tracking-[0.35em] text-slate-400">NeuRizz</p>
+				<Logo class="h-8 w-auto self-start" />
 				<h1 class="text-3xl font-semibold text-slate-900">{title}</h1>
 				{#if subtitle}
 					<p class="max-w-2xl text-base text-slate-600">{subtitle}</p>
