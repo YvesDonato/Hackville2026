@@ -1,0 +1,10 @@
+{
+	"/": [],
+	"/api/wingman": [
+		"src/routes/api/wingman/+server.ts"
+	],
+	"/lab": [],
+	"/rewind": [],
+	"/session": [],
+	"/textMentor": []
+}

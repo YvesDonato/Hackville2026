@@ -19,3 +19,14 @@ export function addTranscriptEntry(speaker: 'user' | 'ai', text: string) {
 export function clearTranscript() {
 	transcript.set([]);
 }
+
+export function popLastUserEntry() {
+	transcript.update((entries) => {
+		if (entries.length > 0 && entries[entries.length - 1].speaker === 'user') {
+			return entries.slice(0, -1);
+		}
+		return entries;
+	});
+}
+
+
