@@ -8,6 +8,9 @@ declare global {
 		// interface PageState {}
 		// interface Platform {}
 	}
+
+	// eslint-disable-next-line no-var
+	var _mongoClientPromise: Promise<import('mongodb').MongoClient> | undefined;
 }
 
 export {};
