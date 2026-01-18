@@ -25,6 +25,7 @@
 	let config = $state<SessionConfig | null>(null);
 	let personaName = $state('');
 	let scenarioName = $state('');
+	let personaKey = $state<SessionConfig['persona'] | null>(null);
 
 	// Mock stats generator
 	function generateMockStats(): SessionStats {
@@ -206,6 +207,7 @@
 		}
 		personaName = getPersonaDisplayName(config.persona);
 		scenarioName = getScenarioDisplayName(config.scenario);
+		personaKey = config.persona;
 	});
 
 	// Watch for videoRef to be available, then init session
@@ -299,7 +301,7 @@
 			<!-- Threlte 3D Scene Background -->
 			{#if browser}
 				<div class="absolute inset-0 z-0 h-full w-full">
-					<ThrelteScene />
+					<ThrelteScene persona={personaKey ?? undefined} />
 				</div>
 			{/if}
 

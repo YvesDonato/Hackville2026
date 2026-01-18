@@ -1,7 +1,10 @@
 <script lang="ts">
 	import { Canvas, T } from '@threlte/core';
 	import type { PerspectiveCamera } from 'three';
+	import type { Persona } from '$lib/types';
 	import FloatingCylinder from '$lib/components/FloatingCylinder.svelte';
+
+	let { persona = null }: { persona?: Persona | null } = $props();
 </script>
 
 <div class="threlte-container">
@@ -18,7 +21,7 @@
 		<T.DirectionalLight position={[4, 6, 6]} intensity={0.9} />
 		<T.AmbientLight intensity={0.7} />
 
-		<FloatingCylinder />
+		<FloatingCylinder persona={persona ?? undefined} />
 	</Canvas>
 </div>
 
