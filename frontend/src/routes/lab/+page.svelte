@@ -111,7 +111,7 @@
 						type="button"
 						disabled={!selectedPersona}
 						onclick={goToScenarioStep}
-            class="text-2xl text-center font-medium w-70 mt-7 mb-4 p-3 drop-shadow-xl rounded-full bg-lblue transition-all hover:bg-mblue disabled:cursor-not-allowed disabled:opacity-50 flex items-center justify-center gap-2"
+            class="text-2xl text-center font-medium sm:w-70 w-48 mt-7 mb-4 p-3 drop-shadow-xl rounded-full bg-lblue transition-all hover:bg-mblue disabled:cursor-not-allowed disabled:opacity-50 flex items-center justify-center gap-2"
           >
 						Next
 						<ArrowIcon />
@@ -127,7 +127,7 @@
 					<button
 						type="button"
 						onclick={goToPersonaStep}	
-          class="text-2xl text-center font-medium w-70 mb-4 p-3 drop-shadow-xl rounded-full bg-white transition-all hover:bg-mblue disabled:cursor-not-allowed disabled:opacity-50"
+          class="text-2xl text-center font-medium sm:w-70 w-48 mb-4 p-3 drop-shadow-xl rounded-full bg-white transition-all hover:bg-mblue disabled:cursor-not-allowed disabled:opacity-50"
           >
 						Back
 					</button>
@@ -135,7 +135,7 @@
 						type="button"
 						disabled={!selectedPersona || !selectedScenario}
 						onclick={startSession}
-            class="text-2xl text-center font-medium w-70 mt-2 mb-4 p-3 drop-shadow-xl rounded-full bg-lblue transition-all hover:bg-mblue disabled:cursor-not-allowed disabled:opacity-50"
+            class="text-2xl text-center font-medium sm:w-70 w-48 mt-2 mb-4 p-3 drop-shadow-xl rounded-full bg-lblue transition-all hover:bg-mblue disabled:cursor-not-allowed disabled:opacity-50"
           >
 						Start Session
 					</button>
