@@ -295,9 +295,11 @@ export class LiveSessionClient {
 	}
 
 	setMicMuted(muted: boolean) {
+		console.log('setMicMuted called with:', muted, 'audioStream:', !!this.audioStream);
 		if (this.audioStream) {
 			this.audioStream.getAudioTracks().forEach((track) => {
 				track.enabled = !muted;
+				console.log('Track enabled set to:', track.enabled);
 			});
 		}
 	}
