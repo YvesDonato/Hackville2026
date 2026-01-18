@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { get } from 'svelte/store';
+	import { jsPDF } from 'jspdf';
 	import type { SessionStats } from '$lib/types';
 	import { sessionStats, sessionConfig } from '$lib/stores/session';
 	import { clearTranscript } from '$lib/stores/transcript';
@@ -31,11 +32,115 @@
 		goto('/lab');
 	}
 
-	function saveReport() {
-		sessionStats.set(null);
-		sessionConfig.set(null);
-		clearTranscript();
-		goto('/');
+	function generatePDF() {
+		if (!stats) return;
+
+		const doc = new jsPDF();
+		const lineHeight = 10;
+		let yPos = 20;
+		const margin = 20;
+		const pageWidth = doc.internal.pageSize.getWidth();
+		const maxLineWidth = pageWidth - margin * 2;
+
+		// Title
+		doc.setFontSize(22);
+		doc.setFont('helvetica', 'bold');
+		doc.text('Neurizz Session Report', margin, yPos);
+		yPos += 12;
+
+		// Metadata
+		doc.setFontSize(12);
+		doc.setFont('helvetica', 'normal');
+		doc.setTextColor(100);
+		const dateStr = new Date().toLocaleDateString();
+		doc.text(`Date: ${dateStr} | Duration: ${formatDuration(stats.duration)}`, margin, yPos);
+		yPos += 20;
+		doc.setTextColor(0);
+
+		// Helper to check page bounds/add page
+		const checkPageBreak = (spaceNeeded: number) => {
+			if (yPos + spaceNeeded > doc.internal.pageSize.getHeight() - margin) {
+				doc.addPage();
+				yPos = 20;
+			}
+		};
+
+		// Strengths
+		checkPageBreak(30);
+		doc.setFontSize(16);
+		doc.setFont('helvetica', 'bold');
+		doc.text('Strengths', margin, yPos);
+		yPos += 10;
+		doc.setFontSize(12);
+		doc.setFont('helvetica', 'normal');
+		
+		stats.strengths.forEach(point => {
+			const lines = doc.splitTextToSize(`• ${point}`, maxLineWidth);
+			checkPageBreak(lines.length * 7);
+			doc.text(lines, margin + 5, yPos);
+			yPos += lines.length * 7;
+		});
+		yPos += 10;
+
+		// Improvements
+		checkPageBreak(30);
+		doc.setFontSize(16);
+		doc.setFont('helvetica', 'bold');
+		doc.text('Areas for Improvement', margin, yPos);
+		yPos += 10;
+		doc.setFontSize(12);
+		doc.setFont('helvetica', 'normal');
+
+		stats.improvements.forEach(point => {
+			const lines = doc.splitTextToSize(`• ${point}`, maxLineWidth);
+			checkPageBreak(lines.length * 7);
+			doc.text(lines, margin + 5, yPos);
+			yPos += lines.length * 7;
+		});
+		yPos += 15;
+
+		// Transcript
+		checkPageBreak(20);
+		doc.setFontSize(16);
+		doc.setFont('helvetica', 'bold');
+		doc.text('Transcript', margin, yPos);
+		yPos += 10;
+		doc.setFontSize(11);
+
+		stats.transcript.forEach(entry => {
+			const speaker = entry.speaker === 'user' ? 'You' : 'Mentor';
+			const prefix = `${speaker}: `;
+			const text = entry.text;
+			
+			// Draw speaker name bold? 
+			// Simpler: just text for now
+			doc.setFont('helvetica', 'bold');
+			const prefixWidth = doc.getTextWidth(prefix);
+			checkPageBreak(7);
+			doc.text(prefix, margin, yPos);
+			
+			doc.setFont('helvetica', 'normal');
+			const lines = doc.splitTextToSize(text, maxLineWidth - prefixWidth);
+			// We need to carefully place the first line after the prefix
+			if (lines.length > 0) {
+				doc.text(lines[0], margin + prefixWidth, yPos);
+				// Remaining lines indented
+				for (let i = 1; i < lines.length; i++) {
+					checkPageBreak(7);
+					yPos += 5; // smaller spacing for transcript lines
+					doc.text(lines[i], margin + prefixWidth, yPos); // simple indent
+				}
+			}
+			yPos += 8; // spacing between entries
+			checkPageBreak(10);
+		});
+
+		doc.save('neurizz-report.pdf');
+	}
+
+	function saveReportAndExit() {
+		// Just save report for now, user can click practice again to clear
+		generatePDF();
 	}
 </script>
 
@@ -106,7 +211,7 @@
 				</button>
 				<button
 					type="button"
-					onclick={saveReport}
+					onclick={saveReportAndExit}
 					class="flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-8 py-4 font-semibold text-slate-700 transition-all hover:bg-slate-50"
 				>
 					<!-- Download icon -->

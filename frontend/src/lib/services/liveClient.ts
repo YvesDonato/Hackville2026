@@ -1,22 +1,12 @@
 import { GoogleGenAI, type LiveServerMessage, Modality } from '@google/genai';
 import { env } from '$env/dynamic/public';
+import { getPersonaById } from '$lib/data/personas';
+import { getScenarioById } from '$lib/data/scenarios';
+import type { Persona, Scenario } from '$lib/types';
 
 // Audio configuration constants
 const INPUT_SAMPLE_RATE = 16000;
 const OUTPUT_SAMPLE_RATE = 24000;
-
-export const SCENARIO_PROMPTS = {
-	coffee_shop: 'We are meeting for a casual coffee. Ambient noise is moderate.',
-	restaurant: 'We are at a nice dinner date. The atmosphere is intimate.',
-	video_call: 'We are on a Facetime/Zoom call. It is a first remote date.'
-} as const;
-
-export const PERSONA_PROMPTS = {
-	male: 'You are a friendly, slightly nervous but charming guy named Alex.',
-	female: 'You are a confident, warm, and engaging woman named Sarah.',
-	discord_kitten:
-		'You are a playful, internet-savvy, slightly chaotic personality using internet slang.'
-} as const;
 
 // --- Audio Utilities ---
 
@@ -125,8 +115,8 @@ export class LiveSessionClient {
 	}
 
 	async connect(
-		scenario: keyof typeof SCENARIO_PROMPTS,
-		persona: keyof typeof PERSONA_PROMPTS,
+		scenario: Scenario,
+		persona: Persona,
 		videoElement: HTMLVideoElement,
 		onTranscription: (speaker: 'user' | 'ai', text: string) => void,
 		onClose: () => void
@@ -148,15 +138,22 @@ export class LiveSessionClient {
 		// Get Microphone Stream
 		this.audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
+		const selectedPersona = getPersonaById(persona);
+		const selectedScenario = getScenarioById(scenario);
+
 		// System Instruction
 		const systemInstruction = `
-      ${PERSONA_PROMPTS[persona]}
-      Context: ${SCENARIO_PROMPTS[scenario]}
+      ${selectedPersona?.systemPrompt || ''}
+      
+      SCENARIO CONTEXT:
+      ${selectedScenario?.systemPrompt || ''}
+      
+      METADATA:
       Role: You are a date preparation mentor for a neurodivergent user.
-      Your goal is to have a natural conversation.
+      Your goal is to have a natural conversation, but adhering strictly to your persona.
       Be supportive but realistic.
       Do not be overly robotic.
-      If the user is silent for too long, gently prompt them.
+      If the user is silent for too long, gently prompt them using your persona's style.
       Keep your responses relatively concise (under 20 seconds) to allow for back-and-forth.
     `;
 
