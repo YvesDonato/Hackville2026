@@ -61,7 +61,14 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 			return json({ error: 'Google account missing email' }, { status: 400 });
 		}
 
-		const client = await clientPromise;
+		let client;
+		try {
+			client = await clientPromise;
+		} catch (e) {
+			console.error('DB Connection Failed:', e);
+			return json({ error: 'Database unavailable. Connection failed.' }, { status: 503 });
+		}
+
 		if (!client) {
 			return json({ error: 'Database unavailable' }, { status: 503 });
 		}

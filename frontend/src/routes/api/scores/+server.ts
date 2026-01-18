@@ -11,7 +11,14 @@ export const POST: RequestHandler = async ({ request }) => {
             return json({ error: 'Missing required fields: userId, score' }, { status: 400 });
         }
 
-		const client = await clientPromise;
+		let client;
+		try {
+			client = await clientPromise;
+		} catch (e) {
+			console.error('DB Connection Failed:', e);
+			return json({ error: 'Database unavailable' }, { status: 503 });
+		}
+
 		if (!client) {
 			return json({ error: 'Database unavailable' }, { status: 503 });
 		}

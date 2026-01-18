@@ -71,6 +71,10 @@
 					{loading ? 'Creating...' : 'Sign up'}
 				</button>
 			</div>
+
+			<p class="mt-6 text-center text-slate-600">
+				Already have an account? <a href="/login" class="font-semibold text-mblue hover:underline">Log in</a>
+			</p>
 		</div>
 	</div>
 </div>

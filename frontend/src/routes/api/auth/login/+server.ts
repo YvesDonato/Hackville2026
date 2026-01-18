@@ -13,9 +13,16 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			return json({ error: 'Email and password are required.' }, { status: 400 });
 		}
 
-		const client = await clientPromise;
+		let client;
+		try {
+			client = await clientPromise;
+		} catch (e) {
+			console.error('DB Connection Failed:', e);
+			return json({ error: 'Database unavailable. Connection failed.' }, { status: 503 });
+		}
+
 		if (!client) {
-			return json({ error: 'Database unavailable. Check MONGODB_URI.' }, { status: 503 });
+			return json({ error: 'Database unavailable.' }, { status: 503 });
 		}
 
 		const db = client.db();
