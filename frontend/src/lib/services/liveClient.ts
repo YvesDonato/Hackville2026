@@ -131,6 +131,7 @@ export class LiveSessionClient {
 		onTranscription: (speaker: 'user' | 'ai', text: string) => void,
 		onClose: () => void
 	) {
+
 		// Initialize Audio Contexts
 		// Input context uses default sample rate (matches microphone), we resample to 16kHz
 		this.inputAudioContext = new (window.AudioContext ||
@@ -199,15 +200,16 @@ export class LiveSessionClient {
 							1
 						);
 
-						const source = this.outputAudioContext.createBufferSource();
-						source.buffer = audioBuffer;
-						source.connect(this.outputNode);
-						source.addEventListener('ended', () => {
-							this.sources.delete(source);
-						});
-						source.start(this.nextStartTime);
-						this.nextStartTime += audioBuffer.duration;
-						this.sources.add(source);
+					const source = this.outputAudioContext.createBufferSource();
+					source.buffer = audioBuffer;
+					source.connect(this.outputNode);
+					source.addEventListener('ended', () => {
+						this.sources.delete(source);
+					});
+					source.start(this.nextStartTime);
+					this.nextStartTime += audioBuffer.duration;
+					this.sources.add(source);
+
 					}
 
 					// Handle interruptions
@@ -315,6 +317,14 @@ export class LiveSessionClient {
 		if (this.inputNode) {
 			try {
 				this.inputNode.disconnect();
+			} catch {
+				/* ignore */
+			}
+		}
+
+		if (this.outputNode) {
+			try {
+				this.outputNode.disconnect();
 			} catch {
 				/* ignore */
 			}

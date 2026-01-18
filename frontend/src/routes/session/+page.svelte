@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { browser } from '$app/environment';
 	import { get } from 'svelte/store';
 	import type { FeedbackMetric, SessionStats, SessionConfig } from '$lib/types';
 	import { sessionConfig, sessionStats, sessionStartTime } from '$lib/stores/session';
@@ -11,6 +12,7 @@
 	import { getPersonaDisplayName } from '$lib/data/personas';
 	import { getScenarioDisplayName } from '$lib/data/scenarios';
 	import SessionControls from '$lib/components/SessionControls.svelte';
+	import ThrelteScene from '$lib/components/ThrelteScene.svelte';
 
 	let videoRef: HTMLVideoElement | null = $state(null);
 	let isConnected = $state(false);
@@ -106,18 +108,19 @@
 			clearTranscript();
 
 			// Setup Client
-			client = new LiveSessionClient();
-			await client.connect(
-				config.scenario,
-				config.persona,
-				videoRef,
-				(speaker, text) => {
-					addTranscriptEntry(speaker, text);
-				},
-				() => {
-					handleEndSession();
-				}
-			);
+		client = new LiveSessionClient();
+		await client.connect(
+			config.scenario,
+			config.persona,
+			videoRef,
+			(speaker, text) => {
+				addTranscriptEntry(speaker, text);
+			},
+			() => {
+				handleEndSession();
+			}
+		);
+
 
 			isConnected = true;
 			startFeedbackLoop();
@@ -291,15 +294,40 @@
 			</button>
 		</div>
 
-		<!-- Main Video Area -->
+		<!-- Main Scene Area -->
 		<div class="relative flex flex-1 items-center justify-center">
-			<!-- Self View (User) -->
-			<video
-				bind:this={videoRef}
-				class="absolute inset-0 z-0 h-full w-full object-cover opacity-50"
-				muted
-				playsinline
-			></video>
+			<!-- Threlte 3D Scene Background -->
+			{#if browser}
+				<div class="absolute inset-0 z-0 h-full w-full">
+					<ThrelteScene />
+				</div>
+			{/if}
+
+			<!-- Self View (User) - PiP Style in Bottom Right -->
+			<div class="absolute bottom-24 right-4 z-20">
+				<div class="relative overflow-hidden rounded-xl border-2 border-white/20 shadow-2xl">
+					<video
+						bind:this={videoRef}
+						class="h-[150px] w-[200px] object-cover"
+						muted
+						playsinline
+					></video>
+					<!-- Connection indicator -->
+					<div class="absolute bottom-2 left-2">
+						<span
+							class="flex h-3 w-3 items-center justify-center rounded-full {isConnected
+								? 'bg-green-500'
+								: 'bg-amber-500'}"
+						>
+							<span
+								class="h-2 w-2 rounded-full {isConnected
+									? 'animate-ping bg-green-400'
+									: 'bg-amber-400'}"
+							></span>
+						</span>
+					</div>
+				</div>
+			</div>
 
 			<!-- Persona Overlay (Abstract Representation) -->
 			<div class="relative z-10 flex flex-col items-center justify-center p-8 text-center">
