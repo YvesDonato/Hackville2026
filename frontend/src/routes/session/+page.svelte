@@ -87,6 +87,10 @@
 			wingmanTimeout = null;
 		}
 
+		// "Clear speech" effect: remove the stutter/silence from before
+		// Do this BEFORE injecting new audio to ensure we don't pop the new transcription if it comes back fast
+		popLastUserEntry();
+
 		if (client) {
 			client.setMicMuted(true);
 			try {
@@ -110,9 +114,9 @@
 		};
 		showToast(`${labels[optionType]} to AI! Mic muted.`);
 
-		// "Clear speech" effect: remove the stutter/silence from before
-		popLastUserEntry();
-		addTranscriptEntry("user", text);
+		// Note: We do NOT manually addTranscriptEntry here.
+		// The server will hear the injected audio and send back an inputTranscription event,
+		// which will naturally add it to the transcript.
 	}
 
 	async function handleWingmanRequest() {
