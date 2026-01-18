@@ -46,7 +46,7 @@
 	{#if persona && textures[persona]}
 		<Decal
 			position={[0, 1, 0]}
-			rotation={[Math.PI/2, 0, Math.PI]}
+			rotation={[Math.PI/2, 0, -Math.PI]}
 			scale={1.5}
 		>
 			<T.MeshBasicMaterial
