@@ -118,8 +118,8 @@ Return ONLY the JSON, no explanation.`,
 			},
 			body: JSON.stringify({
 				prompt: `Ambient, calming, loopable background music for a ${prompt} mood. 30 seconds, gentle and non-intrusive.`,
-				duration_seconds: 30,
-				loop: true
+				music_length_ms: 30000,
+				force_instrumental: true
 			})
 		});
 
