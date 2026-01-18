@@ -33,16 +33,16 @@
 	</header>
 
 	<div class="animate-slide-in flex flex-1 flex-col items-center justify-center gap-10 px-6">
-		<h1 class="text-5xl font-semibold text-slate-800">Welcome to NeuRizz</h1>
+		<h1 class="text-5xl font-semibold text-slate-800 text-center">Welcome to NeuRizz</h1>
 		<div class="flex flex-col gap-4 sm:flex-row">
 			<button
-				class="text-2xl text-center font-medium w-70 p-3 drop-shadow-xl rounded-full bg-lblue"
+				class="text-2xl text-center font-medium w-48 md:w-70 p-3 drop-shadow-xl rounded-full bg-lblue"
 				onclick={() => goto('/lab')}
 			>
 				Rizz
 			</button>
 			<button
-				class="text-2xl text-center font-medium w-70 p-3 drop-shadow-xl rounded-full bg-lblue"
+				class="text-2xl text-center font-medium w-48 md:w-70 p-3 drop-shadow-xl rounded-full bg-lblue"
 				onclick={() => goto('/textMentor')}
 			>
 				Reword
