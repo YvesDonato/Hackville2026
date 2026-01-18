@@ -306,11 +306,11 @@
 			{/if}
 
 			<!-- Self View (User) - PiP Style in Bottom Right -->
-			<div class="absolute bottom-24 right-4 z-20">
+			<div class="absolute bottom-5 right-5 z-20">
 				<div class="relative overflow-hidden rounded-xl border-2 border-white/20 shadow-2xl">
 					<video
 						bind:this={videoRef}
-						class="h-[150px] w-[200px] object-cover"
+						class="h-[450px] w-[500px] object-cover"
 						muted
 						playsinline
 					></video>
@@ -331,59 +331,7 @@
 				</div>
 			</div>
 
-			<!-- Persona Overlay (Abstract Representation) -->
-			<div class="relative z-10 flex flex-col items-center justify-center p-8 text-center">
-				<div
-					class="mb-6 flex h-32 w-32 items-center justify-center rounded-full shadow-[0_0_60px_rgba(255,255,255,0.1)] transition-all duration-500 {isConnected
-						? 'scale-100 border-2 border-indigo-400/50 bg-indigo-500/20'
-						: 'scale-90 bg-slate-800'}"
-				>
-					{#if isConnected}
-						<div class="space-y-1">
-							<div
-								class="h-1 w-16 animate-pulse rounded-full bg-indigo-300"
-								style="animation-delay: 0s"
-							></div>
-							<div
-								class="mx-auto h-1 w-10 animate-pulse rounded-full bg-indigo-300"
-								style="animation-delay: 0.2s"
-							></div>
-							<div
-								class="h-1 w-14 animate-pulse rounded-full bg-indigo-300"
-								style="animation-delay: 0.4s"
-							></div>
-						</div>
-					{:else}
-						<!-- User icon -->
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="48"
-							height="48"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							class="text-slate-500"
-						>
-							<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-							<circle cx="12" cy="7" r="4" />
-						</svg>
-					{/if}
-				</div>
-				<h2 class="mb-2 text-2xl font-light tracking-tight">
-					{personaName}
-					{#if config.persona === 'discord_kitten'}
-						<span>&#128572;</span>
-					{/if}
-				</h2>
-				<p class="max-w-xs text-sm text-indigo-200/60">
-					{isConnected ? 'Listening & Analyzing...' : 'Connecting...'}
-				</p>
-			</div>
-
-			<!-- Visual Guardrail / Feedback Banner -->
+				<!-- Visual Guardrail / Feedback Banner -->
 			{#if feedback}
 				<div
 					class="animate-fade-in absolute bottom-32 left-1/2 z-30 -translate-x-1/2 rounded-2xl px-6 py-3 shadow-lg backdrop-blur-md transition-all duration-500
@@ -446,6 +394,19 @@
 					</div>
 				</div>
 			{/if}
+		</div>
+
+		<!-- Persona Overlay -->
+		<div class="z-10 flex flex-col items-center py-4 text-center">
+			<h2 class="mb-1 text-xl font-light tracking-tight">
+				{personaName}
+				{#if config.persona === 'discord_kitten'}
+					<span>&#128572;</span>
+				{/if}
+			</h2>
+			<p class="text-sm text-indigo-200/60">
+				{isConnected ? 'Listening & Analyzing...' : 'Connecting...'}
+			</p>
 		</div>
 
 		<!-- Controls Bar -->
