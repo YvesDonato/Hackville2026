@@ -392,15 +392,12 @@
 		}
 		personaName = getPersonaDisplayName(config.persona);
 		scenarioName = getScenarioDisplayName(config.scenario);
-<<<<<<< Updated upstream
 		personaKey = config.persona;
-=======
 
 		// Add keyboard listener for panic button
 		if (browser) {
 			window.addEventListener("keydown", handleKeydown);
 		}
->>>>>>> Stashed changes
 	});
 
 	// Watch for videoRef to be available, then init session
