@@ -10,6 +10,31 @@ export class ElevenLabsService {
         MALE: "IKne3meq5aSn9XLyUdCD",   // Adam
     };
 
+    /**
+     * Pre-processes text to enhance emotional expression and clarity.
+     * Tuned for users who benefit from clearer tonal subtext.
+     */
+    private prepareExpressiveText(text: string): string {
+        let processed = text;
+
+        // 1. Pronunciation Fixes
+        processed = processed.replace(/NeuRizz/gi, "New-Rizz");
+
+        // 2. Prosody & Pausing
+        // Replace standard periods with an ellipsis to force a natural "breath" pause
+        processed = processed.replace(/\. /g, "... ");
+
+        // Ensure commas have enough "air" for a rhythmic lift
+        processed = processed.replace(/, /g, ",  ");
+
+        // 3. Emotional "Anchoring"
+        // Multilingual v2 sets tone based on the first few tokens. 
+        // We ensure it starts with a clean, clear token.
+        processed = processed.trim();
+
+        return processed;
+    }
+
     constructor(apiKey?: string) {
         this.apiKey = apiKey || env.PUBLIC_ELEVENLABS_API_KEY || import.meta.env.VITE_ELEVENLABS_API_KEY || "";
     }
@@ -27,6 +52,8 @@ export class ElevenLabsService {
             throw new Error("Missing ElevenLabs API Key");
         }
 
+        const processedText = this.prepareExpressiveText(text);
+
         const response = await fetch(`${this.baseUrl}/text-to-speech/${voiceId}`, {
             method: "POST",
             headers: {
@@ -34,11 +61,13 @@ export class ElevenLabsService {
                 "xi-api-key": this.apiKey,
             },
             body: JSON.stringify({
-                text,
-                model_id: "eleven_monolingual_v1",
+                text: processedText,
+                model_id: "eleven_multilingual_v2",
                 voice_settings: {
-                    stability: 0.5,
-                    similarity_boost: 0.75,
+                    stability: 0.45,
+                    similarity_boost: 0.8,
+                    style: 0.1,
+                    use_speaker_boost: true
                 },
             }),
         });
