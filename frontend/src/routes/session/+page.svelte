@@ -161,10 +161,15 @@
 
 			sessionStats.set(stats);
 		} catch (error) {
-			console.error('Analysis failed, using fallback:', error);
+			console.error('Analysis failed:', error);
 
-			// Fallback to mock data
-			const stats = generateMockStats();
+			// Fallback to empty feedback
+			const stats: SessionStats = {
+				duration,
+				strengths: ['Unable to analyze session'],
+				improvements: ['Unable to analyze session'],
+				transcript: currentTranscript
+			};
 			sessionStats.set(stats);
 		}
 
