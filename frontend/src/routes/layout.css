@@ -3,6 +3,7 @@
 @plugin '@tailwindcss/typography';
 
 @theme {
+	--font-sans: 'PT Sans', sans-serif;
 	--color-pastel-blue: #e0e7ff;
 	--color-pastel-green: #d1fae5;
 	--color-pastel-rose: #ffe4e6;
