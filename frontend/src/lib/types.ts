@@ -20,6 +20,7 @@ export interface TranscriptEntry {
 
 export interface SessionStats {
 	duration: number; // seconds
+	score: number; // 0-100
 	strengths: string[];
 	improvements: string[];
 	transcript: TranscriptEntry[];

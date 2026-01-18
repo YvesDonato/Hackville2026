@@ -27,19 +27,22 @@ export {};
 
 declare module "$app/types" {
 	export interface AppTypes {
-		RouteId(): "/" | "/lab" | "/rewind" | "/session" | "/textMentor";
+		RouteId(): "/" | "/api" | "/api/scores" | "/api/transcriptions" | "/lab" | "/rewind" | "/session" | "/textMentor";
 		RouteParams(): {
 			
 		};
 		LayoutParams(): {
 			"/": Record<string, never>;
+			"/api": Record<string, never>;
+			"/api/scores": Record<string, never>;
+			"/api/transcriptions": Record<string, never>;
 			"/lab": Record<string, never>;
 			"/rewind": Record<string, never>;
 			"/session": Record<string, never>;
 			"/textMentor": Record<string, never>
 		};
-		Pathname(): "/" | "/lab" | "/lab/" | "/rewind" | "/rewind/" | "/session" | "/session/" | "/textMentor" | "/textMentor/";
+		Pathname(): "/" | "/api" | "/api/" | "/api/scores" | "/api/scores/" | "/api/transcriptions" | "/api/transcriptions/" | "/lab" | "/lab/" | "/rewind" | "/rewind/" | "/session" | "/session/" | "/textMentor" | "/textMentor/";
 		ResolvedPathname(): `${"" | `/${string}`}${ReturnType<AppTypes['Pathname']>}`;
-		Asset(): "/BlueHeart.png" | "/SarahTheSquare.png" | "/discordKitten.png" | "/robots.txt" | string & {};
+		Asset(): "/BlueHeart.png" | "/discordKitten.png" | "/robots.txt" | "/SarahTheSquare.png" | string & {};
 	}
 }

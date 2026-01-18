@@ -1,18 +1,34 @@
 <script lang="ts">
-	import { onMount, onDestroy } from 'svelte';
-	import { goto } from '$app/navigation';
-	import { browser } from '$app/environment';
-	import { get } from 'svelte/store';
-	import type { FeedbackMetric, SessionStats, SessionConfig } from '$lib/types';
-	import { sessionConfig, sessionStats, sessionStartTime } from '$lib/stores/session';
-	import { transcript, addTranscriptEntry, clearTranscript } from '$lib/stores/transcript';
-	import { currentFeedback, setFeedback, clearFeedback } from '$lib/stores/feedback';
-	import { LiveSessionClient } from '$lib/services/liveClient';
-	import { analyzeTranscript } from '$lib/services/transcriptAnalyzer';
-	import { getPersonaDisplayName } from '$lib/data/personas';
-	import { getScenarioDisplayName } from '$lib/data/scenarios';
-	import SessionControls from '$lib/components/SessionControls.svelte';
-	import ThrelteScene from '$lib/components/ThrelteScene.svelte';
+	import { onMount, onDestroy } from "svelte";
+	import { goto } from "$app/navigation";
+	import { browser } from "$app/environment";
+	import { get } from "svelte/store";
+	import type {
+		FeedbackMetric,
+		SessionStats,
+		SessionConfig,
+	} from "$lib/types";
+	import {
+		sessionConfig,
+		sessionStats,
+		sessionStartTime,
+	} from "$lib/stores/session";
+	import {
+		transcript,
+		addTranscriptEntry,
+		clearTranscript,
+	} from "$lib/stores/transcript";
+	import {
+		currentFeedback,
+		setFeedback,
+		clearFeedback,
+	} from "$lib/stores/feedback";
+	import { LiveSessionClient } from "$lib/services/liveClient";
+	import { analyzeTranscript } from "$lib/services/transcriptAnalyzer";
+	import { getPersonaDisplayName } from "$lib/data/personas";
+	import { getScenarioDisplayName } from "$lib/data/scenarios";
+	import SessionControls from "$lib/components/SessionControls.svelte";
+	import ThrelteScene from "$lib/components/ThrelteScene.svelte";
 
 	let videoRef: HTMLVideoElement | null = $state(null);
 	let isConnected = $state(false);
@@ -23,9 +39,9 @@
 	let feedbackInterval: number | null = null;
 
 	let config = $state<SessionConfig | null>(null);
-	let personaName = $state('');
-	let scenarioName = $state('');
-	let personaKey = $state<SessionConfig['persona'] | null>(null);
+	let personaName = $state("");
+	let scenarioName = $state("");
+	let personaKey = $state<SessionConfig["persona"] | null>(null);
 
 	// Mock stats generator
 	function generateMockStats(): SessionStats {
@@ -34,31 +50,35 @@
 		const duration = Math.floor((Date.now() - startTime) / 1000);
 
 		const strengthsPool = [
-			'You maintained a warm and inviting tone throughout the conversation.',
-			'Your pacing was excellent - not too fast, not too slow.',
-			'You asked thoughtful follow-up questions that showed genuine interest.',
-			'Your body language appeared open and engaged.',
-			'You handled pauses naturally without rushing to fill silence.',
-			'Your responses were well-structured and easy to follow.'
+			"You maintained a warm and inviting tone throughout the conversation.",
+			"Your pacing was excellent - not too fast, not too slow.",
+			"You asked thoughtful follow-up questions that showed genuine interest.",
+			"Your body language appeared open and engaged.",
+			"You handled pauses naturally without rushing to fill silence.",
+			"Your responses were well-structured and easy to follow.",
 		];
 
 		const improvementsPool = [
-			'Try maintaining eye contact for slightly longer periods.',
-			'Consider taking a breath before responding to complex questions.',
-			'Practice active listening cues like nodding or brief verbal affirmations.',
-			'Work on varying your vocal tone to add more expressiveness.',
-			'Try to relax your shoulders during intense moments.'
+			"Try maintaining eye contact for slightly longer periods.",
+			"Consider taking a breath before responding to complex questions.",
+			"Practice active listening cues like nodding or brief verbal affirmations.",
+			"Work on varying your vocal tone to add more expressiveness.",
+			"Try to relax your shoulders during intense moments.",
 		];
 
 		// Random selection
-		const shuffledStrengths = [...strengthsPool].sort(() => Math.random() - 0.5);
-		const shuffledImprovements = [...improvementsPool].sort(() => Math.random() - 0.5);
+		const shuffledStrengths = [...strengthsPool].sort(
+			() => Math.random() - 0.5,
+		);
+		const shuffledImprovements = [...improvementsPool].sort(
+			() => Math.random() - 0.5,
+		);
 
 		return {
 			duration,
 			strengths: shuffledStrengths.slice(0, 3),
 			improvements: shuffledImprovements.slice(0, 2),
-			transcript: currentTranscript
+			transcript: currentTranscript,
 		};
 	}
 
@@ -71,23 +91,23 @@
 			if (r > 0.95) {
 				setFeedback({
 					timestamp: Date.now(),
-					type: 'eye_contact',
-					message: 'Gentle reminder: Try to look at the camera.',
-					severity: 'info'
+					type: "eye_contact",
+					message: "Gentle reminder: Try to look at the camera.",
+					severity: "info",
 				});
 			} else if (r > 0.9 && r < 0.92) {
 				setFeedback({
 					timestamp: Date.now(),
-					type: 'pacing',
-					message: 'Great pacing! You are speaking clearly.',
-					severity: 'success'
+					type: "pacing",
+					message: "Great pacing! You are speaking clearly.",
+					severity: "success",
 				});
 			} else if (r < 0.05) {
 				setFeedback({
 					timestamp: Date.now(),
-					type: 'posture',
-					message: 'Relax your shoulders, take a deep breath.',
-					severity: 'info'
+					type: "posture",
+					message: "Relax your shoulders, take a deep breath.",
+					severity: "info",
 				});
 			} else if (Math.random() > 0.7) {
 				clearFeedback();
@@ -100,7 +120,9 @@
 
 		try {
 			// Setup Video
-			videoStream = await navigator.mediaDevices.getUserMedia({ video: true });
+			videoStream = await navigator.mediaDevices.getUserMedia({
+				video: true,
+			});
 			videoRef.srcObject = videoStream;
 			await videoRef.play();
 
@@ -109,24 +131,23 @@
 			clearTranscript();
 
 			// Setup Client
-		client = new LiveSessionClient();
-		await client.connect(
-			config.scenario,
-			config.persona,
-			videoRef,
-			(speaker, text) => {
-				addTranscriptEntry(speaker, text);
-			},
-			() => {
-				handleEndSession();
-			}
-		);
-
+			client = new LiveSessionClient();
+			await client.connect(
+				config.scenario,
+				config.persona,
+				videoRef,
+				(speaker, text) => {
+					addTranscriptEntry(speaker, text);
+				},
+				() => {
+					handleEndSession();
+				},
+			);
 
 			isConnected = true;
 			startFeedbackLoop();
 		} catch (err) {
-			console.error('Failed to init session:', err);
+			console.error("Failed to init session:", err);
 		}
 	}
 
@@ -146,38 +167,77 @@
 		try {
 			const currentConfig = get(sessionConfig);
 			if (!currentConfig) {
-				throw new Error('Session config not found');
+				throw new Error("Session config not found");
 			}
 
 			// Call Gemini for analysis
 			const analysis = await analyzeTranscript(
 				currentTranscript,
 				currentConfig.scenario,
-				currentConfig.persona
+				currentConfig.persona,
 			);
 
 			const stats: SessionStats = {
 				duration,
+				score: analysis.score,
 				strengths: analysis.strengths,
 				improvements: analysis.improvements,
-				transcript: currentTranscript
+				transcript: currentTranscript,
 			};
 
 			sessionStats.set(stats);
+
+			// Save to Database
+			try {
+				const userId =
+					localStorage.getItem("neurizz_user_id") ||
+					crypto.randomUUID();
+				localStorage.setItem("neurizz_user_id", userId);
+
+				// Save Score
+				await fetch("/api/scores", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						userId,
+						score: analysis.score,
+						metadata: {
+							scenario: currentConfig.scenario,
+							persona: currentConfig.persona,
+							duration,
+						},
+					}),
+				});
+
+				// Save Transcription
+				await fetch("/api/transcriptions", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						userId,
+						sessionId: crypto.randomUUID(), // New session ID for this specific run
+						transcription: JSON.stringify(currentTranscript),
+					}),
+				});
+			} catch (dbError) {
+				console.error("Failed to save to database:", dbError);
+				// Continue anyway, don't block the user from seeing results
+			}
 		} catch (error) {
-			console.error('Analysis failed:', error);
+			console.error("Analysis failed:", error);
 
 			// Fallback to empty feedback
 			const stats: SessionStats = {
 				duration,
-				strengths: ['Session too short'],
-				improvements: ['Session too short'],
-				transcript: currentTranscript
+				score: 0,
+				strengths: ["Session too short or analysis failed"],
+				improvements: ["Try speaking more next time"],
+				transcript: currentTranscript,
 			};
 			sessionStats.set(stats);
 		}
 
-		goto('/rewind');
+		goto("/rewind");
 	}
 
 	function cleanup() {
@@ -202,7 +262,7 @@
 	onMount(() => {
 		config = get(sessionConfig);
 		if (!config) {
-			goto('/lab');
+			goto("/lab");
 			return;
 		}
 		personaName = getPersonaDisplayName(config.persona);
@@ -219,10 +279,15 @@
 
 	// Watch for mic toggle and mute/unmute audio
 	$effect(() => {
-		console.log('Mic effect triggered, micActive:', micActive, 'client:', !!client);
+		console.log(
+			"Mic effect triggered, micActive:",
+			micActive,
+			"client:",
+			!!client,
+		);
 		if (client) {
 			client.setMicMuted(!micActive);
-			console.log('Called setMicMuted with:', !micActive);
+			console.log("Called setMicMuted with:", !micActive);
 		}
 	});
 
@@ -244,7 +309,9 @@
 {#if config}
 	<!-- Loading Overlay -->
 	{#if isAnalyzing}
-		<div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/95">
+		<div
+			class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/95"
+		>
 			<div class="space-y-6 text-center">
 				<div class="relative">
 					<div
@@ -252,23 +319,33 @@
 					></div>
 				</div>
 				<div class="space-y-2">
-					<h2 class="text-xl font-semibold text-white">Analyzing Your Session</h2>
-					<p class="text-sm text-slate-400">AI is reviewing your conversation...</p>
+					<h2 class="text-xl font-semibold text-white">
+						Analyzing Your Session
+					</h2>
+					<p class="text-sm text-slate-400">
+						AI is reviewing your conversation...
+					</p>
 				</div>
 			</div>
 		</div>
 	{/if}
 
-	<div class="relative flex h-screen flex-col overflow-hidden bg-slate-900 text-white">
+	<div
+		class="relative flex h-screen flex-col overflow-hidden bg-slate-900 text-white"
+	>
 		<!-- Top Bar -->
 		<div
 			class="absolute left-0 right-0 top-0 z-20 flex items-center justify-between bg-gradient-to-b from-black/50 to-transparent p-4"
 		>
 			<div class="flex items-center gap-2">
 				<span
-					class="h-2 w-2 rounded-full {isConnected ? 'animate-pulse bg-red-500' : 'bg-slate-500'}"
+					class="h-2 w-2 rounded-full {isConnected
+						? 'animate-pulse bg-red-500'
+						: 'bg-slate-500'}"
 				></span>
-				<span class="text-sm font-medium uppercase tracking-wide opacity-80">
+				<span
+					class="text-sm font-medium uppercase tracking-wide opacity-80"
+				>
 					Live Session &bull; {scenarioName}
 				</span>
 			</div>
@@ -309,7 +386,9 @@
 
 			<!-- Self View (User) - PiP Style in Bottom Right -->
 			<div class="absolute bottom-5 right-5 z-20">
-				<div class="relative overflow-hidden rounded-xl border-2 border-white/20 shadow-2xl">
+				<div
+					class="relative overflow-hidden rounded-xl border-2 border-white/20 shadow-2xl"
+				>
 					<video
 						bind:this={videoRef}
 						class="h-[450px] w-[500px] object-cover"
@@ -333,16 +412,22 @@
 				</div>
 			</div>
 
-				<!-- Visual Guardrail / Feedback Banner -->
+			<!-- Visual Guardrail / Feedback Banner -->
 			{#if feedback}
 				<div
 					class="animate-fade-in absolute bottom-32 left-1/2 z-30 -translate-x-1/2 rounded-2xl px-6 py-3 shadow-lg backdrop-blur-md transition-all duration-500
-					{feedback.severity === 'info' ? 'border border-blue-400/30 bg-blue-500/20 text-blue-100' : ''}
-					{feedback.severity === 'warning' ? 'border border-amber-400/30 bg-amber-500/20 text-amber-100' : ''}
-					{feedback.severity === 'success' ? 'border border-emerald-400/30 bg-emerald-500/20 text-emerald-100' : ''}"
+					{feedback.severity === 'info'
+						? 'border border-blue-400/30 bg-blue-500/20 text-blue-100'
+						: ''}
+					{feedback.severity === 'warning'
+						? 'border border-amber-400/30 bg-amber-500/20 text-amber-100'
+						: ''}
+					{feedback.severity === 'success'
+						? 'border border-emerald-400/30 bg-emerald-500/20 text-emerald-100'
+						: ''}"
 				>
 					<div class="flex items-center gap-3">
-						{#if feedback.type === 'eye_contact'}
+						{#if feedback.type === "eye_contact"}
 							<!-- Eye icon -->
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -360,7 +445,7 @@
 								/>
 								<circle cx="12" cy="12" r="3" />
 							</svg>
-						{:else if feedback.type === 'posture'}
+						{:else if feedback.type === "posture"}
 							<!-- User icon -->
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -373,7 +458,9 @@
 								stroke-linecap="round"
 								stroke-linejoin="round"
 							>
-								<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+								<path
+									d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"
+								/>
 								<circle cx="12" cy="7" r="4" />
 							</svg>
 						{:else}
@@ -392,7 +479,9 @@
 								<path d="M20 6 9 17l-5-5" />
 							</svg>
 						{/if}
-						<span class="text-sm font-medium">{feedback.message}</span>
+						<span class="text-sm font-medium"
+							>{feedback.message}</span
+						>
 					</div>
 				</div>
 			{/if}
@@ -402,17 +491,21 @@
 		<div class="z-10 flex flex-col items-center py-4 text-center">
 			<h2 class="mb-1 text-xl font-light tracking-tight">
 				{personaName}
-				{#if config.persona === 'discord_kitten'}
+				{#if config.persona === "discord_kitten"}
 					<span>&#128572;</span>
 				{/if}
 			</h2>
 			<p class="text-sm text-indigo-200/60">
-				{isConnected ? 'Listening & Analyzing...' : 'Connecting...'}
+				{isConnected ? "Listening & Analyzing..." : "Connecting..."}
 			</p>
 		</div>
 
 		<!-- Controls Bar -->
-		<SessionControls bind:micActive {isConnected} onEndSession={handleEndSession} />
+		<SessionControls
+			bind:micActive
+			{isConnected}
+			onEndSession={handleEndSession}
+		/>
 	</div>
 {:else}
 	<div class="flex min-h-screen items-center justify-center bg-slate-900">

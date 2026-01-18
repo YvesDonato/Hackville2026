@@ -1,0 +1,30 @@
+import { json } from '@sveltejs/kit';
+import clientPromise from '$lib/server/db';
+import type { RequestHandler } from './$types';
+
+export const POST: RequestHandler = async ({ request }) => {
+    try {
+        const data = await request.json();
+        const { userId, score, metadata } = data;
+
+        if (!userId || typeof score !== 'number') {
+            return json({ error: 'Missing required fields: userId, score' }, { status: 400 });
+        }
+
+        const client = await clientPromise;
+        const db = client.db();
+        const collection = db.collection('scores');
+
+        const result = await collection.insertOne({
+            userId,
+            score,
+            metadata: metadata || {},
+            timestamp: new Date()
+        });
+
+        return json({ success: true, id: result.insertedId }, { status: 201 });
+    } catch (e) {
+        console.error('Error saving score:', e);
+        return json({ error: 'Internal Server Error' }, { status: 500 });
+    }
+};

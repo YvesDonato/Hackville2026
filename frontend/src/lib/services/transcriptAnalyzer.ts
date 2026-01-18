@@ -3,6 +3,7 @@ import { env } from '$env/dynamic/public';
 import type { TranscriptEntry, Scenario, Persona } from '$lib/types';
 
 export interface AnalysisResult {
+	score: number;
 	strengths: string[];
 	improvements: string[];
 }
@@ -20,7 +21,13 @@ Transcript:
 
 Based on this conversation, provide personalized feedback:
 
-1. STRENGTHS (3 items): What did the user do well? Look for:
+1. SCORE (0-100): Rate the user's overall social performance.
+   - 90-100: Excellent, natural, engaging
+   - 70-89: Good, minor awkwardness but solid
+   - 50-69: Average, some missed cues or awkward moments
+   - 0-49: Needs significant improvement
+
+2. STRENGTHS (3 items): What did the user do well? Look for:
    - Good conversation flow and turn-taking
    - Asking follow-up questions
    - Showing genuine interest
@@ -29,7 +36,7 @@ Based on this conversation, provide personalized feedback:
    - Recovery from awkward moments
    - Use of humor when appropriate
 
-2. IMPROVEMENTS (2 items): What could the user improve? Look for:
+3. IMPROVEMENTS (2 items): What could the user improve? Look for:
    - Missed opportunities for follow-up questions
    - One-word or too-brief responses
    - Overly long monologues
@@ -41,6 +48,7 @@ IMPORTANT: Be specific and reference actual moments from the conversation when p
 
 Respond in this exact JSON format:
 {
+  "score": 85,
   "strengths": ["strength 1", "strength 2", "strength 3"],
   "improvements": ["improvement 1", "improvement 2"]
 }`;
@@ -87,7 +95,7 @@ export async function analyzeTranscript(
 	const parsed = JSON.parse(text) as AnalysisResult;
 
 	// Validate response structure
-	if (!Array.isArray(parsed.strengths) || !Array.isArray(parsed.improvements)) {
+	if (typeof parsed.score !== 'number' || !Array.isArray(parsed.strengths) || !Array.isArray(parsed.improvements)) {
 		throw new Error('Invalid response structure from Gemini');
 	}
 

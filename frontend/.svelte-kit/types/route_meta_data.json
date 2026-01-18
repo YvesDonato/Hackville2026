@@ -1,5 +1,11 @@
 {
 	"/": [],
+	"/api/scores": [
+		"src/routes/api/scores/+server.ts"
+	],
+	"/api/transcriptions": [
+		"src/routes/api/transcriptions/+server.ts"
+	],
 	"/lab": [],
 	"/rewind": [],
 	"/session": [],
