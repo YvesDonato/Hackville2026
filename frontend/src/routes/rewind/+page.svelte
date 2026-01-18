@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { get } from 'svelte/store';
 	import { jsPDF } from 'jspdf';
+	import confetti from 'canvas-confetti';
 	import type { SessionStats } from '$lib/types';
 	import { sessionStats, sessionConfig } from '$lib/stores/session';
 	import { clearTranscript } from '$lib/stores/transcript';
@@ -17,6 +18,13 @@
 		stats = get(sessionStats);
 		if (!stats) {
 			goto('/lab');
+		} else {
+			// Celebration confetti burst
+			confetti({
+				particleCount: 150,
+				spread: 70,
+				origin: { y: 0.6 }
+			});
 		}
 	});
 
