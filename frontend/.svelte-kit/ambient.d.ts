@@ -26,47 +26,6 @@
  * ```
  */
 declare module '$env/static/private' {
-<<<<<<< HEAD
-	export const ACSetupSvcPort: string;
-	export const ACSvcPort: string;
-	export const ALLUSERSPROFILE: string;
-	export const ANTIGRAVITY_AGENT: string;
-	export const ANTIGRAVITY_CLI_ALIAS: string;
-	export const APPDATA: string;
-	export const CHROME_CRASHPAD_PIPE_NAME: string;
-	export const COLOR: string;
-	export const COLORTERM: string;
-	export const CommonProgramFiles: string;
-	export const CommonProgramW6432: string;
-	export const COMPUTERNAME: string;
-	export const ComSpec: string;
-	export const DriverData: string;
-	export const EDITOR: string;
-	export const EFC_22052_1262719628: string;
-	export const EFC_22052_1592913036: string;
-	export const EFC_22052_2283032206: string;
-	export const EFC_22052_2775293581: string;
-	export const EFC_22052_3789132940: string;
-	export const FPS_BROWSER_APP_PROFILE_STRING: string;
-	export const FPS_BROWSER_USER_PROFILE_STRING: string;
-	export const GameFirstUserPath: string;
-	export const GameTurbo: string;
-	export const GIT_ASKPASS: string;
-	export const HADOOP_HOME: string;
-	export const HOME: string;
-	export const HOMEDRIVE: string;
-	export const HOMEPATH: string;
-	export const INIT_CWD: string;
-	export const JAVA_HOME: string;
-	export const LANG: string;
-	export const LOCALAPPDATA: string;
-	export const LOGONSERVER: string;
-	export const NODE: string;
-	export const NODE_ENV: string;
-	export const npm_command: string;
-	export const npm_config_cache: string;
-	export const npm_config_globalconfig: string;
-=======
 	export const SHELL: string;
 	export const npm_command: string;
 	export const GHOSTTY_BIN_DIR: string;
@@ -228,63 +187,13 @@ declare module '$env/static/private' {
 	export const depsBuildTargetPropagated: string;
 	export const depsBuildBuildPropagated: string;
 	export const DIRENV_WATCHES: string;
->>>>>>> ac972c21dd03d229e86cfdfe890108cbc07cabe8
 	export const npm_config_global_prefix: string;
-	export const npm_config_init_module: string;
-	export const npm_config_local_prefix: string;
-	export const npm_config_node_gyp: string;
-	export const npm_config_noproxy: string;
-	export const npm_config_npm_version: string;
-	export const npm_config_prefix: string;
-	export const npm_config_userconfig: string;
-	export const npm_config_user_agent: string;
-	export const npm_execpath: string;
-	export const npm_lifecycle_event: string;
-	export const npm_lifecycle_script: string;
+	export const NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu: string;
+	export const QT_PLUGIN_PATH: string;
+	export const CONFIG_SHELL: string;
+	export const CURRENT_FILE: string;
+	export const __structuredAttrs: string;
 	export const npm_node_execpath: string;
-<<<<<<< HEAD
-	export const npm_package_json: string;
-	export const npm_package_name: string;
-	export const npm_package_version: string;
-	export const NUMBER_OF_PROCESSORS: string;
-	export const OneDrive: string;
-	export const OneDriveConsumer: string;
-	export const ORIGINAL_XDG_CURRENT_DESKTOP: string;
-	export const OS: string;
-	export const PAGER: string;
-	export const Path: string;
-	export const PATHEXT: string;
-	export const PROCESSOR_ARCHITECTURE: string;
-	export const PROCESSOR_IDENTIFIER: string;
-	export const PROCESSOR_LEVEL: string;
-	export const PROCESSOR_REVISION: string;
-	export const ProgramData: string;
-	export const ProgramFiles: string;
-	export const ProgramW6432: string;
-	export const PROMPT: string;
-	export const PSModulePath: string;
-	export const PUBLIC: string;
-	export const RlsSvcPort: string;
-	export const SESSIONNAME: string;
-	export const SystemDrive: string;
-	export const SystemRoot: string;
-	export const TEMP: string;
-	export const TERM_PROGRAM: string;
-	export const TERM_PROGRAM_VERSION: string;
-	export const TMP: string;
-	export const USERDOMAIN: string;
-	export const USERDOMAIN_ROAMINGPROFILE: string;
-	export const USERNAME: string;
-	export const USERPROFILE: string;
-	export const VBOX_MSI_INSTALL_PATH: string;
-	export const VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
-	export const VSCODE_GIT_ASKPASS_MAIN: string;
-	export const VSCODE_GIT_ASKPASS_NODE: string;
-	export const VSCODE_GIT_IPC_HANDLE: string;
-	export const VSCODE_INJECTION: string;
-	export const VSCODE_PYTHON_AUTOACTIVATE_GUARD: string;
-	export const windir: string;
-=======
 	export const RANLIB: string;
 	export const NIX_HARDENING_ENABLE: string;
 	export const OLDPWD: string;
@@ -296,7 +205,6 @@ declare module '$env/static/private' {
 	export const PKG_CONFIG: string;
 	export const depsHostHostPropagated: string;
 	export const NODE_ENV: string;
->>>>>>> ac972c21dd03d229e86cfdfe890108cbc07cabe8
 }
 
 /**
@@ -309,7 +217,8 @@ declare module '$env/static/private' {
  * ```
  */
 declare module '$env/static/public' {
-	
+	export const PUBLIC_GEMINI_API_KEY: string;
+	export const PUBLIC_ELEVENLABS_API_KEY: string;
 }
 
 /**
@@ -326,47 +235,6 @@ declare module '$env/static/public' {
  */
 declare module '$env/dynamic/private' {
 	export const env: {
-<<<<<<< HEAD
-		ACSetupSvcPort: string;
-		ACSvcPort: string;
-		ALLUSERSPROFILE: string;
-		ANTIGRAVITY_AGENT: string;
-		ANTIGRAVITY_CLI_ALIAS: string;
-		APPDATA: string;
-		CHROME_CRASHPAD_PIPE_NAME: string;
-		COLOR: string;
-		COLORTERM: string;
-		CommonProgramFiles: string;
-		CommonProgramW6432: string;
-		COMPUTERNAME: string;
-		ComSpec: string;
-		DriverData: string;
-		EDITOR: string;
-		EFC_22052_1262719628: string;
-		EFC_22052_1592913036: string;
-		EFC_22052_2283032206: string;
-		EFC_22052_2775293581: string;
-		EFC_22052_3789132940: string;
-		FPS_BROWSER_APP_PROFILE_STRING: string;
-		FPS_BROWSER_USER_PROFILE_STRING: string;
-		GameFirstUserPath: string;
-		GameTurbo: string;
-		GIT_ASKPASS: string;
-		HADOOP_HOME: string;
-		HOME: string;
-		HOMEDRIVE: string;
-		HOMEPATH: string;
-		INIT_CWD: string;
-		JAVA_HOME: string;
-		LANG: string;
-		LOCALAPPDATA: string;
-		LOGONSERVER: string;
-		NODE: string;
-		NODE_ENV: string;
-		npm_command: string;
-		npm_config_cache: string;
-		npm_config_globalconfig: string;
-=======
 		SHELL: string;
 		npm_command: string;
 		GHOSTTY_BIN_DIR: string;
@@ -528,63 +396,13 @@ declare module '$env/dynamic/private' {
 		depsBuildTargetPropagated: string;
 		depsBuildBuildPropagated: string;
 		DIRENV_WATCHES: string;
->>>>>>> ac972c21dd03d229e86cfdfe890108cbc07cabe8
 		npm_config_global_prefix: string;
-		npm_config_init_module: string;
-		npm_config_local_prefix: string;
-		npm_config_node_gyp: string;
-		npm_config_noproxy: string;
-		npm_config_npm_version: string;
-		npm_config_prefix: string;
-		npm_config_userconfig: string;
-		npm_config_user_agent: string;
-		npm_execpath: string;
-		npm_lifecycle_event: string;
-		npm_lifecycle_script: string;
+		NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu: string;
+		QT_PLUGIN_PATH: string;
+		CONFIG_SHELL: string;
+		CURRENT_FILE: string;
+		__structuredAttrs: string;
 		npm_node_execpath: string;
-<<<<<<< HEAD
-		npm_package_json: string;
-		npm_package_name: string;
-		npm_package_version: string;
-		NUMBER_OF_PROCESSORS: string;
-		OneDrive: string;
-		OneDriveConsumer: string;
-		ORIGINAL_XDG_CURRENT_DESKTOP: string;
-		OS: string;
-		PAGER: string;
-		Path: string;
-		PATHEXT: string;
-		PROCESSOR_ARCHITECTURE: string;
-		PROCESSOR_IDENTIFIER: string;
-		PROCESSOR_LEVEL: string;
-		PROCESSOR_REVISION: string;
-		ProgramData: string;
-		ProgramFiles: string;
-		ProgramW6432: string;
-		PROMPT: string;
-		PSModulePath: string;
-		PUBLIC: string;
-		RlsSvcPort: string;
-		SESSIONNAME: string;
-		SystemDrive: string;
-		SystemRoot: string;
-		TEMP: string;
-		TERM_PROGRAM: string;
-		TERM_PROGRAM_VERSION: string;
-		TMP: string;
-		USERDOMAIN: string;
-		USERDOMAIN_ROAMINGPROFILE: string;
-		USERNAME: string;
-		USERPROFILE: string;
-		VBOX_MSI_INSTALL_PATH: string;
-		VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
-		VSCODE_GIT_ASKPASS_MAIN: string;
-		VSCODE_GIT_ASKPASS_NODE: string;
-		VSCODE_GIT_IPC_HANDLE: string;
-		VSCODE_INJECTION: string;
-		VSCODE_PYTHON_AUTOACTIVATE_GUARD: string;
-		windir: string;
-=======
 		RANLIB: string;
 		NIX_HARDENING_ENABLE: string;
 		OLDPWD: string;
@@ -596,7 +414,6 @@ declare module '$env/dynamic/private' {
 		PKG_CONFIG: string;
 		depsHostHostPropagated: string;
 		NODE_ENV: string;
->>>>>>> ac972c21dd03d229e86cfdfe890108cbc07cabe8
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: `${string}`]: string | undefined;
 	}
@@ -614,6 +431,8 @@ declare module '$env/dynamic/private' {
  */
 declare module '$env/dynamic/public' {
 	export const env: {
+		PUBLIC_GEMINI_API_KEY: string;
+		PUBLIC_ELEVENLABS_API_KEY: string;
 		[key: `PUBLIC_${string}`]: string | undefined;
 	}
 }

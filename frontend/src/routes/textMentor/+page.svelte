@@ -7,21 +7,13 @@
 	let isLoading = $state(false);
 	let error = $state('');
 	let audioUrl = $state<string | null>(null);
-	let userApiKey = $state('');
-	let showApiKeyInput = $state(!elevenLabsService.hasApiKey());
+	let showApiKeyNotice = $state(!elevenLabsService.hasApiKey());
 
 	const voices = [
 		{ id: ElevenLabsService.VOICES.FEMALE, name: 'Clear Female (Rachel)' },
 		{ id: ElevenLabsService.VOICES.MALE, name: 'Clear Male (Adam)' }
 	];
 
-	function handleApiKeySubmit() {
-		if (userApiKey.trim()) {
-			elevenLabsService.setApiKey(userApiKey.trim());
-			showApiKeyInput = false;
-			error = '';
-		}
-	}
 
 	async function handleSpeak() {
 		if (!text.trim()) return;
@@ -36,9 +28,6 @@
 		} catch (e: any) {
 			console.error(e);
 			error = e.message || 'Something went wrong. Please check your API key and try again.';
-			if (error.includes('API Key')) {
-				showApiKeyInput = true;
-			}
 		} finally {
 			isLoading = false;
 		}
@@ -53,27 +42,13 @@
 		</p>
 	</div>
 
-	{#if showApiKeyInput}
+	{#if showApiKeyNotice}
 		<div class="mb-8 rounded-2xl border border-indigo-100 bg-indigo-50 p-6">
 			<h2 class="mb-2 text-lg font-semibold text-slate-800">API Key Required</h2>
-			<p class="mb-4 text-slate-600">
-				To use the high-quality Neural Voices, please enter your ElevenLabs API Key. 
-				This is stored only in your browser session.
+			<p class="text-slate-600">
+				Set <code>PUBLIC_ELEVENLABS_API_KEY</code> in your <code>.env</code> file to enable
+				ElevenLabs voices.
 			</p>
-			<div class="flex gap-2">
-				<input
-					type="password"
-					bind:value={userApiKey}
-					placeholder="Enter xi-api-key..."
-					class="w-full rounded-lg border-slate-200 px-4 py-2 focus:border-indigo-500 focus:ring-indigo-500"
-				/>
-				<button
-					onclick={handleApiKeySubmit}
-					class="rounded-lg bg-indigo-600 px-6 py-2 font-semibold text-white transition hover:bg-indigo-700"
-				>
-					Save
-				</button>
-			</div>
 		</div>
 	{/if}
 

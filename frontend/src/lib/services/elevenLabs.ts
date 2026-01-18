@@ -1,3 +1,5 @@
+import { env } from '$env/dynamic/public';
+
 export class ElevenLabsService {
   private apiKey: string;
   private baseUrl = "https://api.elevenlabs.io/v1";
@@ -9,7 +11,7 @@ export class ElevenLabsService {
   };
 
   constructor(apiKey?: string) {
-    this.apiKey = apiKey || import.meta.env.VITE_ELEVENLABS_API_KEY || "";
+    this.apiKey = apiKey || env.PUBLIC_ELEVENLABS_API_KEY || import.meta.env.VITE_ELEVENLABS_API_KEY || "";
   }
 
   setApiKey(key: string) {
