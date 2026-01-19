@@ -1,14 +1,16 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
 	import Logo from "$lib/components/Logo.svelte";
+	import { geminiApiKey } from "$lib/stores/apiKey";
 
 	let email = $state("");
 	let password = $state("");
+	let geminiKey = $state("");
 	let error = $state("");
 	let loading = $state(false);
 
 	const handleSubmit = async () => {
-		if (!email || !password) return;
+		if (!email || !password || !geminiKey) return;
 		loading = true;
 		error = "";
 		try {
@@ -21,6 +23,7 @@
 				const data = await res.json().catch(() => ({}));
 				error = data.error || "Login failed.";
 			} else {
+				geminiApiKey.set(geminiKey);
 				goto("/dashboard");
 			}
 		} catch {
@@ -66,6 +69,18 @@
 					placeholder="Password"
 					bind:value={password}
 				/>
+
+				<div class="space-y-2">
+					<input
+						class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-800 placeholder-slate-400 focus:border-mblue focus:ring-mblue"
+						type="password"
+						placeholder="Gemini API Key"
+						bind:value={geminiKey}
+					/>
+					<p class="text-sm text-slate-500">
+						Get your API key from <a href="https://aistudio.google.com/apikey" target="_blank" class="text-mblue hover:underline">Google AI Studio</a>
+					</p>
+				</div>
 
 				{#if error}
 					<p

@@ -1,5 +1,4 @@
 import { GoogleGenAI, type LiveServerMessage, Modality } from '@google/genai';
-import { env } from '$env/dynamic/public';
 import { getPersonaById } from '$lib/data/personas';
 import { getScenarioById } from '$lib/data/scenarios';
 import type { Persona, Scenario } from '$lib/types';
@@ -106,10 +105,9 @@ export class LiveSessionClient {
 	private videoInterval: number | null = null;
 	private audioStream: MediaStream | null = null;
 
-	constructor() {
-		const apiKey = env.PUBLIC_GEMINI_API_KEY;
+	constructor(apiKey: string) {
 		if (!apiKey) {
-			throw new Error('PUBLIC_GEMINI_API_KEY environment variable is not set');
+			throw new Error('Gemini API key is required');
 		}
 		this.ai = new GoogleGenAI({ apiKey });
 	}

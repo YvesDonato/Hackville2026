@@ -3,6 +3,8 @@
 	import { browser } from "$app/environment";
 	import { env } from "$env/dynamic/public";
 	import { fade } from "svelte/transition";
+	import { get } from "svelte/store";
+	import { geminiApiKey } from "$lib/stores/apiKey";
 
 	let isOpen = $state(false);
 	let moodPrompt = $state("");
@@ -40,7 +42,7 @@
 		mood: string
 	): Promise<{ bg: string; text: string; accent: string }> {
 		try {
-			const apiKey = env.PUBLIC_GEMINI_API_KEY;
+			const apiKey = get(geminiApiKey);
 			if (!apiKey) throw new Error("Missing Gemini API key");
 
 			const response = await fetch(

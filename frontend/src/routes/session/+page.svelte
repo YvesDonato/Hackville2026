@@ -13,6 +13,7 @@
 		sessionStats,
 		sessionStartTime,
 	} from "$lib/stores/session";
+	import { geminiApiKey } from "$lib/stores/apiKey";
 	import {
 		transcript,
 		addTranscriptEntry,
@@ -51,6 +52,7 @@
 	let personaName = $state("");
 	let scenarioName = $state("");
 	let personaKey = $state<SessionConfig["persona"] | null>(null);
+	let apiKey = $state("");
 
 	// Wingman state
 	let wingmanLoading = $state(false);
@@ -283,7 +285,7 @@
 			clearTranscript();
 
 			// Setup Client
-			client = new LiveSessionClient();
+			client = new LiveSessionClient(apiKey);
 			await client.connect(
 				config.scenario,
 				config.persona,
@@ -327,6 +329,7 @@
 				currentTranscript,
 				currentConfig.scenario,
 				currentConfig.persona,
+				apiKey,
 			);
 
 			const stats: SessionStats = {
@@ -413,8 +416,13 @@
 
 	onMount(() => {
 		config = get(sessionConfig);
+		apiKey = get(geminiApiKey);
 		if (!config) {
 			goto("/lab");
+			return;
+		}
+		if (!apiKey) {
+			goto("/login");
 			return;
 		}
 		personaName = getPersonaDisplayName(config.persona);

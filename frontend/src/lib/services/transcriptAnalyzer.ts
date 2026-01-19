@@ -1,5 +1,4 @@
 import { GoogleGenAI } from '@google/genai';
-import { env } from '$env/dynamic/public';
 import type { TranscriptEntry, Scenario, Persona } from '$lib/types';
 
 export interface AnalysisResult {
@@ -56,11 +55,11 @@ Respond in this exact JSON format:
 export async function analyzeTranscript(
 	transcript: TranscriptEntry[],
 	scenario: Scenario,
-	persona: Persona
+	persona: Persona,
+	apiKey: string
 ): Promise<AnalysisResult> {
-	const apiKey = env.PUBLIC_GEMINI_API_KEY;
 	if (!apiKey) {
-		throw new Error('PUBLIC_GEMINI_API_KEY environment variable is not set');
+		throw new Error('Gemini API key is required');
 	}
 
 	// Skip analysis if transcript is too short
