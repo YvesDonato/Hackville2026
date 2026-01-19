@@ -53,6 +53,6 @@ declare module "$app/types" {
 		};
 		Pathname(): "/" | "/api" | "/api/" | "/api/auth" | "/api/auth/" | "/api/auth/google" | "/api/auth/google/" | "/api/auth/google/callback" | "/api/auth/google/callback/" | "/api/auth/login" | "/api/auth/login/" | "/api/auth/logout" | "/api/auth/logout/" | "/api/auth/signup" | "/api/auth/signup/" | "/api/scores" | "/api/scores/" | "/api/transcriptions" | "/api/transcriptions/" | "/api/wingman" | "/api/wingman/" | "/dashboard" | "/dashboard/" | "/lab" | "/lab/" | "/login" | "/login/" | "/rewind" | "/rewind/" | "/session" | "/session/" | "/signup" | "/signup/" | "/textMentor" | "/textMentor/";
 		ResolvedPathname(): `${"" | `/${string}`}${ReturnType<AppTypes['Pathname']>}`;
-		Asset(): "/BlueHeart.png" | "/SarahTheSquare.png" | "/alex.png" | "/discordKitten.png" | "/robots.txt" | string & {};
+		Asset(): "/BlueHeart.png" | "/SarahTheSquare.png" | "/alex.png" | "/cafe.mp3" | "/dinner.mp3" | "/discordKitten.png" | "/lofi.mp3" | "/robots.txt" | string & {};
 	}
 }
